@@ -17,7 +17,7 @@ canvas.width  = cellSize * gridSize;
 canvas.height = cellSize * gridSize;
 
 const tileImg = new Image();
-tileImg.src = "docs/webpage/assets/media/tile.png"; // your greyscale PNG
+tileImg.src = "../media/tile.png"; // your greyscale PNG
 tileImg.onload = () => draw();
 
 class Tile {
