@@ -2,4 +2,4 @@
 Welcome to the Leatherbound archive.
 
 This is an MVP of my website and Runetile ttrpg system, there's still a lot to work on but this is a good starting point
-[Runetile](https://toadbucket.github.io/Home/)
+[https://toadbucket.github.io/Home/](https://toadbucket.github.io/Home/)
