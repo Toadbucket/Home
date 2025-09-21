@@ -6,13 +6,13 @@ class ScriptManager {
     this.fppCtx        = this.fppCanvas.getContext('2d');
     this.registry      = {};
     this.scripts       = [
-      'VisualScene/mapScript.js',
-      'VisualScene/fppScript.js',
-      'games/generator.js',
-      'validator/validator.js',
-      'VisualScene/sceneEffects.js',
+      'assets/VisualScene/mapScript.js',
+      'assets/VisualScene/fppScript.js',
+      'assets/games/generator.js',
+      'assets/validator/validator.js',
+      'assets/VisualScene/sceneEffects.js',
     ];
-    this.jsonFile      = 'VisualScene/sceneData.json';
+    this.jsonFile      = 'assets/VisualScene/sceneData.json';
     this.rooms         = {};
     this.currentRoomId = null;
     this.rotation      = 0; // 0=N,1=E,2=S,3=W
@@ -93,3 +93,4 @@ class ScriptManager {
     this.runInstruction({ function: 'drawFPP', args: {} });
   }
 }
+
