@@ -264,10 +264,10 @@ function loadBoardState(state) {
 
   if (!list) {
     console.error("loadBoardState: no tiles or rooms in state", state);
-    return;
+    
   } else if ('leve0.json') {
     document.getElementById("message").innerText = "test";
-    return;
+    
   } else if ('level1.json') {
        document.getElementById("message").innerText = "This is a Tome add two tiles to cap the ends to turn this cantrip into a Spell Form";
       
@@ -612,6 +612,7 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
 
 
