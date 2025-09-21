@@ -268,7 +268,7 @@ function loadBoardState(state) {
   } if ('leve0.json') {
     document.getElementById("message").innerText = "test";
     
-  } if ('level1.json') {
+  } else if ('level1.json') {
        document.getElementById("message").innerText = "This is a Tome add two tiles to cap the ends to turn this cantrip into a Spell Form";
       
   }  else document.getElementById("message").innerText = "not loaded";
@@ -612,5 +612,6 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
 
