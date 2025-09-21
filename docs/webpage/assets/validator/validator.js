@@ -7,9 +7,9 @@ let spellData = {};
 (async function loadSpellData() {
 try {
 const [namesResponse, mechanicsResponse, flavorResponse] = await Promise.all([
-fetch('assets/validator/spellNames.json'),
-fetch('assets/validator/spellMechanics.json'),
-fetch('assets/validator/spellFlavorText.json')
+fetch('validator/spellNames.json'),
+fetch('validator/spellMechanics.json'),
+fetch('validator/spellFlavorText.json')
 ]);
 
 if (!namesResponse.ok || !mechanicsResponse.ok || !flavorResponse.ok) {
@@ -245,4 +245,5 @@ ctx.fillText(primary, 10, 30);
 ctx.fillText(secondary, 10, 60);
 ctx.fillText(tertiary, 10, 90);
 }
+
 
