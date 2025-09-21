@@ -2,17 +2,17 @@ const postManifest = [
 {
 title: "Entry One: The Runetile System.",
 date: "August 29, 2025",
-htmlPath: "posts/post-one.html"
+htmlPath: "assets/posts/post-one.html"
 },
 {
 title: "Entry Two:Runetile Online Helper.",
 date: "August 25, 2025",
-htmlPath: "posts/post-two.html"
+htmlPath: "assets/posts/post-two.html"
 },
 {
 title: "Entry Three: Runetile Modes of Play.",
 date: "August 20, 2025",
-htmlPath: "posts/post-three.html"
+htmlPath: "assets/posts/post-three.html"
 },
 {
 title: "Entry Four: Design Ethos and creativity through modularity.",
@@ -40,3 +40,4 @@ date: "August 15, 2025",
 htmlPath: "posts/post-eight.html"
 },
 ];
+
