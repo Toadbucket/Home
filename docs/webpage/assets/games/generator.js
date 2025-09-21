@@ -231,7 +231,7 @@ loadTutorialBtn.addEventListener("click", async () => {
 
   try {
     // adjust path as needed: e.g. /data/tutorials/${key}.json
-    const res = await fetch(`tutorials/${key}.json`);
+    const res = await fetch(`assets/tutorials/${key}.json`);
     if (!res.ok) throw new Error(res.statusText);
 
     const state = await res.json();
@@ -612,4 +612,5 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
