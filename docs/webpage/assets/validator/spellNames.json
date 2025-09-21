@@ -1,0 +1,26 @@
+{
+"primary": {
+"Fire": ["Blaze", "Inferno", "Cinder"],
+"Water": ["Tide", "Aqua", "Torrent"],
+"Air": ["Gale", "Zephyr", "Breeze"],
+"Earth": ["Terra", "Stone", "Quake"],
+"Chaos": ["Rift", "Void", "Flux"],
+"Arcane": ["Aura", "Rune", "Mystic"]
+},
+"secondary": {
+"Fire": ["Spark", "Scorch", "Flicker"],
+"Water": ["Surge", "Mist", "Wave"],
+"Air": ["Draft", "Whirl", "Gust"],
+"Earth": ["Spire", "Wall", "Shard"],
+"Chaos": ["Vortex", "Shatter", "Twist"],
+"Arcane": ["Bolt", "Sigil", "Pulse"]
+},
+"tertiary": {
+"Fire": ["Ember", "Ash", "Flare"],
+"Water": ["Spray", "Dew", "Geyser"],
+"Air": ["Whisper", "Echo", "Current"],
+"Earth": ["Root", "Dust", "Bloom"],
+"Chaos": ["Scatter", "Chaos", "Glimmer"],
+"Arcane": ["Beam", "Seal", "Focus"]
+}
+}

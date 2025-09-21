@@ -1,22 +1,24 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="assets/css/generator.css">
+  <meta charset="UTF-8" />
+  <title>RPG + Spell Generator & Validator</title>
+  <link rel="stylesheet" href="css/generator.css" />
+  <link rel="stylesheet" href="validator/validator.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<nav>
-<ul class="menu">
-<li><a href="runetile.html">Runetile</a></li>
-<li><a href="blog.html">Blog</a></li>
-<li><a href="validator.html">Validator</a></li>
-<li><a href="generator.html">Generator</a></li>
-<li><a href="Sandbox-rpg.html">RPG</a></li>
-<li><a href="jewelry.html">Jewelry</a></li>
-</ul>
-</nav>
-<meta charset="utf-8" />
-<title>Tile Board with Groups</title>
-
+  <nav>
+    <ul class="menu">
+      <li><a href="runetile.html">Runetile</a></li>
+      <li><a href="Blog.html">Blog</a></li>
+      <li><a href="validator.html">Validator</a></li>
+      <li><a href="generator.html">Generator</a></li>
+      <li><a href="Sandbox-rpg.html">RPG</a></li>
+      <li><a href="jewelry.html">Jewelry</a></li>
+    </ul>
+  </nav>
+  
  <!-- Spell Generator Panel -->
   <div id="toolbar">
     <button onclick="spawnTile(0)">0</button>
@@ -79,10 +81,26 @@
 <button onclick="toggleRune()">Runetile</button>
   <div id="board" style="display: none;">This message is toggled!</div>
 
-
-<script src="assets/games/generator.js"></script>
-
-<p id="message"></p>
+<!-- RPG Dual-View Panel -->
+  <div id="views">
+    <canvas id="mapCanvas" tabindex="0" width="500" height="500"></canvas>
+    <canvas id="fppCanvas" tabindex="0" width="500" height="500"></canvas>
+  </div>
+<button onclick="toggleMap()">Map</button>
+  <div id="mapCanvas" style="display: none;">This message is toggled!</div>
+  <button onclick="toggleGame()">Game</button>
+  <div id="fppCanvas" style="display: none;">This message is toggled!</div>
+ 
+  <!-- Spell Validator Panel -->
+  <div class="container">
+    <h1>Runetile Spell Validator</h1>
+    <textarea id="spellSeed" rows="2" placeholder="Enter spell seed e.g. 1.15 2.4 3.2 4.9 5.20 6.3"></textarea>
+    <button id="validateButton">Validate Spell</button>
+    <div id="spellCard" class="hidden"></div>
+    <canvas id="spellCanvas" width="300" height="300"></canvas>
+  </div>
+  <button onclick="toggleValidator()">Validator</button>
+  <div id="spellCanvas" style="display: none;">This message is toggled!</div>
 <div id="header"></div>
 
 <h1>Runetile, The TTRPG Spell Building System</h1>
@@ -111,7 +129,93 @@
 <p>Developers Note This is an art project and the programs are all MVP additionally I produced the applications and framework of my code using AI but the systems and the IP are all my original work.</p>
 <p>This system is designed for the LeatherBound RPG system and Toadbucket's Trinckets narrative IP.</p>
 <p></p>
+
+<ul>
+<li><p><strong><a href="project-alpha.html">Welding</a></strong><br>Typically stick or mig but I dabble in tig.</p>
+</li>
+<li><p><strong><a href="project-beta.html">Jewelry</a></strong><br>A collection of handcrafted bespoke traditional benchwork jewelry.</p>
+</li>
+<li><p><strong><a href="project-gamma.html">Animation</a></strong><br>Animations set in the leatherbound universe sometimes showcasing jewelry. </p>
+</li>
+<li><p><strong><a href="">TTRPG Setting</a></strong>
+The Universe toadbucket and runetile are set in.</p>
+</li>
+<li><p><strong><a href="">Blog</a></strong>
+A website I designed.</p>
+</li>
+</ul>
+<hr>
+<h2></h2>
+<p></p>
+
+<hr>
+<p></p>
+<p></p>
+<script>
+
+ const canvas1 = document.getElementById('fppCanvas'); // Replace with your actual canvas ID
+ const canvas2 = document.getElementById('mapCanvas'); 
+ 
+document.addEventListener('keydown', function(event) {
+  // Only intercept keys if the canvas is focused
+  if (document.activeElement === canvas1) {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      event.preventDefault(); // Prevent default scrolling
+      // Your custom canvas logic here
+      
+    }
+    
+  }
+  canvas1.addEventListener('click', () => {
+  canvas1.focus();
+});
+
+});
+
+
+
+    function toggleRune() {
+      const board = document.getElementById('board');
+      if (board.style.display === 'none') {
+        board.style.display = 'block';
+      } else {
+        board.style.display = 'none';
+      }
+    }
+    function toggleMap() {
+      const mapcanvas = document.getElementById('mapCanvas');
+      if (mapcanvas.style.display === 'block') {
+        mapcanvas.style.display = 'none';
+      } else {
+        mapcanvas.style.display = 'block';
+      }
+    }
+  function toggleGame() {
+      const fppCanvas = document.getElementById('fppCanvas');
+      if (fppCanvas.style.display === 'block') {
+        fppCanvas.style.display = 'none';
+      } else {
+        fppCanvas.style.display = 'block';
+      }
+    }
+function toggleValidator() {
+      const spellCanvas = document.getElementById('spellCanvas');
+      if (spellCanvas.style.display === 'none') {
+        spellCanvas.style.display = 'block';
+      } else {
+        spellCanvas.style.display = 'none';
+      }
+    }
+
+
+</script>
+  <!-- Core Manager -->
+  <script src="manager.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const mgr = new ScriptManager('mapCanvas', 'fppCanvas');
+      mgr.init();
+    });
+  </script>
 </body>
 </html>
-
-

@@ -1,9 +1,9 @@
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
-const seedDisplay = document.getElementById("seed");
-
-const cellSize = 50;
-const gridSize = 24;
+const canvas       = document.getElementById("board");
+const ctx          = canvas.getContext("2d");
+const seedDisplay  = document.getElementById("seed");
+// … other constants and classes …
+const cellSize = 40;
+const gridSize = 12;
 
 const tileColors = {
   1: "#f87171", // red
@@ -17,9 +17,8 @@ canvas.width  = cellSize * gridSize;
 canvas.height = cellSize * gridSize;
 
 const tileImg = new Image();
-tileImg.src = "assets/media/tile.png"; // your greyscale PNG
+tileImg.src = "media/tile.png"; // your greyscale PNG
 tileImg.onload = () => draw();
-tileImg.onerror = () => console.error("Image did not load", tile.src);
 
 class Tile {
   constructor(id, x, y) {
@@ -32,11 +31,14 @@ class Tile {
 
 class Board {
   constructor() { this.tiles = []; }
-  placeTile(id, x, y) {
-    this.tiles = this.tiles.filter(t => !(t.x===x && t.y===y));
-    this.tiles.push(new Tile(id,x,y));
-    this.updateSeed();
-  }
+  placeTile(id, x, y, rot = 0) {
+  this.tiles = this.tiles.filter(t => !(t.x === x && t.y === y));
+  const tile = new Tile(id, x, y);
+  tile.rot = rot;
+  this.tiles.push(tile);
+  this.updateSeed();
+}
+
   getTile(x,y) { return this.tiles.find(t=>t.x===x && t.y===y); }
   deleteTile(tile) {
     this.tiles = this.tiles.filter(t => t!==tile);
@@ -55,6 +57,34 @@ let selectedId = 1;
 let selectedTiles = [];
 let groupMode = false;
 
+
+Board.prototype.updateSeed = function() {
+  const counts = {};
+  this.tiles.forEach(t => counts[t.id] = (counts[t.id]||0)+1);
+  const seed = Object.entries(counts)
+    .map(([id,n]) => `${id}.${n}`)
+    .join(" ");
+  seedDisplay.textContent = "Seed: " + (seed || "—");
+  // **Push seed into validator input**
+  const seedInput = document.getElementById("spellSeed");
+  if (seedInput) seedInput.value = seed;
+};
+
+
+function notify(message, duration = 2000) {
+  const note = document.getElementById("notification");
+  note.textContent = message;
+  note.classList.add("visible");
+  note.classList.remove("hidden");
+  clearTimeout(note._timeout);
+  note._timeout = setTimeout(() => {
+    note.classList.add("hidden");
+    note.classList.remove("visible");
+  }, duration);
+}
+
+
+// … rest of your generator code unchanged …
 function spawnTile(id) { selectedId = id; }
 
 function toggleGroupMode() {
@@ -63,6 +93,7 @@ function toggleGroupMode() {
 function displayMessage() {
       document.getElementById("message").innerText = "group mode " +(groupMode ? "ON" : "OFF");
     }
+    
 function rotateSelectionCW() {
   if(selectedTiles.length === 1) {
     // rotate single tile normally
@@ -120,6 +151,161 @@ function clearBoard() {
   board.updateSeed();
   draw();
 }
+
+// --- Seed Generation and Interpretation ---
+function generateAdvancedSeed() {
+  const seedData = {};
+
+  // Group tiles by their ID
+  board.tiles.forEach(tile => {
+    if (!seedData[tile.id]) {
+      seedData[tile.id] = [];
+    }
+    seedData[tile.id].push({x: tile.x, y: tile.y, rot: tile.rot});
+  });
+
+  // Format the data into the advanced seed string
+  let advancedSeed = "";
+  for (const id in seedData) {
+    const coords = seedData[id].map(coord => `${coord.x},${coord.y},${coord.rot}`).join(".");
+    // Use the element names (fire, water, etc.) if you have them, otherwise use the ID
+    const element = getElementFromId(parseInt(id)); // This function is explained below
+    advancedSeed += `${id},(${element}),${coords} `;
+  }
+
+  // Display the advanced seed in the input field
+  document.getElementById("advancedSeedInput").value = advancedSeed.trim();
+  if (!advancedSeed) {
+  alert("Place tiles to Generate advance seed.");
+  }
+    else {
+      notify('Advanced Seed generated and copied to the input field.');
+    }
+  }
+
+
+function applyAdvancedSeed() {
+  const advancedSeedInput = document.getElementById("advancedSeedInput").value;
+  if (!advancedSeedInput) {
+    notify("Please paste an advanced seed into the input field.");
+    return;
+  } else{
+    notify("Spell Reconstructed.");
+  }
+
+  clearBoard();
+
+  const tileGroups = advancedSeedInput.split(" ").filter(Boolean);
+
+  tileGroups.forEach(group => {
+    const parts = group.split(",");
+    const id = parseInt(parts[0]);
+
+    const coordStrings = parts.slice(2).join(",").split(".");
+
+    coordStrings.forEach(coordString => {
+      const coords = coordString.split(",").map(c => parseInt(c));
+      const [x, y, rot] = coords;
+      if (!isNaN(id) && !isNaN(x) && !isNaN(y) && !isNaN(rot)) {
+        board.placeTile(id, x, y, rot);
+      }
+    });
+  });
+
+  board.updateSeed();
+  draw();
+}
+
+// 1) Hook up the select + button
+const tutorialSelect = document.getElementById("tutorialSelect");
+const loadTutorialBtn = document.getElementById("loadTutorialBtn");
+
+tutorialSelect.addEventListener("change", () => {
+  loadTutorialBtn.disabled = !tutorialSelect.value;
+});
+
+// 2) When user clicks “Load Tutorial”, fetch the JSON
+loadTutorialBtn.addEventListener("click", async () => {
+  const key = tutorialSelect.value;
+  if (!key) return; // safety
+
+  try {
+    // adjust path as needed: e.g. /data/tutorials/${key}.json
+    const res = await fetch(`tutorials/${key}.json`);
+    if (!res.ok) throw new Error(res.statusText);
+
+    const state = await res.json();
+    loadBoardState(state);
+  } catch (err) {
+    alert("Could not load tutorial JSON:\n" + err.message);
+    console.error(err);
+  }
+});
+
+/**
+ * Load a tutorial or level JSON into your board.
+ * Supports two shapes:
+ *   { tiles: [ {id, x, y, rot}, … ] }
+ *   { rooms: [ { tileId, x, y, rotation, … }, … ] }
+ */
+function loadBoardState(state) {
+  // Pick the array that exists
+  const list = Array.isArray(state.tiles)
+    ? state.tiles
+    : Array.isArray(state.rooms)
+      // convert rooms → tile‐like entries
+      ? state.rooms.map(r => ({
+          id:   r.tileId, 
+          x:    r.x, 
+          y:    r.y, 
+          rot:  r.rotation 
+        }))
+      : null;
+
+  if (!list) {
+    console.error("loadBoardState: no tiles or rooms in state", state);
+    return;
+  } if ('leve0.json') {
+    document.getElementById("message").innerText = "test";
+    
+  } if ('level1.json') {
+       document.getElementById("message").innerText = "This is a Tome add two tiles to cap the ends to turn this cantrip into a Spell Form";
+      
+  }  else document.getElementById("message").innerText = "not loaded";
+
+  // Clear existing tiles
+  board.tiles = [];
+  selectedTiles = [];
+
+  // Place each entry
+  list.forEach(t => {
+    // t.id is numeric element ID
+    const id  = t.id;
+    const x   = t.x;
+    const y   = t.y;
+    const rot = t.rot || 0;
+    board.placeTile(id, x, y, rot);
+  });
+
+  // Refresh seed display and redraw
+  board.updateSeed();
+  draw();
+}
+
+
+// Helper function to get the element name from the ID
+function getElementFromId(id) {
+  const elements = {
+    1: "fire",
+    2: "water",
+    3: "air", // You didn't provide this one, so I'll add a placeholder
+    4: "earth",
+    5: "chaos",
+    6: "arcane"
+  };
+  return elements[id] || "unknown";
+}
+
 
 let moveMode = false;  // toggled by Button
 
@@ -349,6 +535,74 @@ function draw() {
     });
     ctx.restore();
   }
+  
+
+
+// Grab the new name-input element
+const nameInput      = document.getElementById("spellNameInput");
+
+// Existing elements
+const seedInput      = document.getElementById("advancedSeedInput");
+const saveBtn        = document.getElementById("saveSpellBtn");
+const deleteBtn      = document.getElementById("deleteSpellBtn");
+const spellsContainer= document.getElementById("savedSpellsContainer");
+
+// Load or initialize saved array
+let savedSpells = JSON.parse(localStorage.getItem("savedSpells") || "[]");
+
+// Render function (unchanged)
+function renderSavedSpells() {
+  spellsContainer.innerHTML = "";
+  savedSpells.forEach(({ name, seed }) => {
+    const btn = document.createElement("button");
+    btn.textContent  = name;
+    btn.dataset.seed = seed;
+    btn.onclick      = () => seedInput.value = seed;
+    spellsContainer.appendChild(btn);
+  });
+}
+
+// Save handler: use inline input instead of prompt
+saveBtn.addEventListener("click", () => {
+  const seed = seedInput.value.trim();
+  const name = nameInput.value.trim();
+  if (!seed) {
+    notify("Generate or paste an advanced seed first.");
+    return;
+  }
+  if (!name) {
+    notify("Please enter a name for your spell.");
+    return;
+  }
+  if (savedSpells.some(s => s.seed === seed)) {
+    notify("This spell is already saved.");
+    return;
+  }
+  savedSpells.push({ name, seed });
+  localStorage.setItem("savedSpells", JSON.stringify(savedSpells));
+  nameInput.value = "";
+  renderSavedSpells();
+  notify(`Saved “${name}”`);
+});
+
+// Delete handler: matches current seed, removes entry
+deleteBtn.addEventListener("click", () => {
+  const seed = seedInput.value.trim();
+  const idx  = savedSpells.findIndex(s => s.seed === seed);
+  if (idx === -1) {
+    notify("No saved spell matches the current seed.");
+    return;
+  }
+  const { name } = savedSpells[idx];
+  savedSpells.splice(idx, 1);
+  localStorage.setItem("savedSpells", JSON.stringify(savedSpells));
+  renderSavedSpells();
+  notify(`Deleted “${name}”`);
+});
+
+// Initial render
+renderSavedSpells();
+
 }
 
 // make sure canvas is sized to your grid on init
