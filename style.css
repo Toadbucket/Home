@@ -1,0 +1,21 @@
+/* General layout & RPG canvases */
+html, body {
+  margin: 0; padding: 0;
+  background: #111; color: #eee;
+  font-family: sans-serif;
+}
+#views {
+  display: flex; gap: 10px;
+  padding: 10px;
+}
+canvas {
+  background: #222;
+  image-rendering: pixelated;
+  border: 2px solid #555;
+}
+#fppCanvas {
+      display: none; /* Initially hidden */
+    }
+    #mapCanvas {
+      display: none; /* Initially hidden */
+    }
