@@ -11,7 +11,7 @@ async function fetchAndDisplayPosts() {
 
   // Fetch all posts in parallel
   const fetchPromises = postsToFetch.map(post =>
-    fetch(post.htmlPath)
+    fetch(/assets/post/htmlPath)
       .then(response => {
         if (!response.ok) {
           throw new Error(`Error loading ${post.htmlPath}: ${response.status}`);
@@ -68,5 +68,6 @@ window.onload = () => {
   fetchAndDisplayPosts();
   setupPagination();
 };
+
 
 
