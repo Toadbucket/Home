@@ -1,7 +1,60 @@
 document.getElementById("validateButton").addEventListener("click", validateSpell);
 
+// Registry of mechanic profiles
+const mechanicProfiles = {
+  ttrpg: 'assets/validator/spellMechanics_ttrpg.json',
+  pvp:  'assets/validator/spellMechanics_pvp.json',
+  vrpg: 'assets/validator/spellMechanics_vrpg.json',
+  custom: null  // will be set by user file input
+};
+
+// Track which profile is active
+let activeProfile = 'ttrpg';
+
+
 // Global variable to store fetched spell data
-let spellData = {};
+let spellData = {
+  names: {},
+  flavorText: {},
+  bodyMechanics: [],
+  trailMechanics: [],
+  impactMechanics: [],
+};
+
+(async function initializeSpellData() {
+  try {
+    const [namesRes, flavorRes] = await Promise.all([
+      fetch('assets/validator/spellNames.json'),
+      fetch('assets/validator/spellFlavorText.json')
+    ]);
+    if (!namesRes.ok || !flavorRes.ok) throw new Error();
+
+    spellData.names = await namesRes.json();
+    spellData.flavorText = await flavorRes.json();
+
+    // Load initial mechanics
+    await loadMechanicsProfile(activeProfile);
+
+    console.log("Initial spell data loaded.");
+  } catch (e) {
+    console.error("Initialization error:", e);
+    displayCard(`<b>Error:</b> Could not load core spell data.`);
+    document.getElementById("validateButton").disabled = true;
+  }
+})();
+
+async function loadMechanicsProfile(profileKey) {
+  const path = mechanicProfiles[profileKey];
+  if (!path) return;  // custom handled elsewhere
+
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load ${profileKey}`);
+  const mechanics = await res.json();
+
+  spellData.bodyMechanics   = mechanics.body;
+  spellData.trailMechanics  = mechanics.trail;
+  spellData.impactMechanics = mechanics.impact;
+}
 
 // Use an async IIFE (Immediately Invoked Function Expression) to load data on page load
 (async function loadSpellData() {
@@ -245,6 +298,45 @@ ctx.fillText(primary, 10, 30);
 ctx.fillText(secondary, 10, 60);
 ctx.fillText(tertiary, 10, 90);
 }
+document.getElementById("mechanicSelector")
+  .addEventListener("change", async function(e) {
+    const key = e.target.value;
+    activeProfile = key;
+
+    if (key === 'custom') {
+      document.getElementById("customMechanicFile").classList.remove("hidden");
+      return;
+    }
+    document.getElementById("customMechanicFile").classList.add("hidden");
+    try {
+      await loadMechanicsProfile(key);
+      displayCard("Mechanics switched to " + key);
+    } catch (err) {
+      console.error(err);
+      displayCard(`<b>Error:</b> Could not load ${key} mechanics.`);
+    }
+  });
+
+document.getElementById("customMechanicFile")
+  .addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const obj = JSON.parse(reader.result);
+        spellData.bodyMechanics   = obj.body;
+        spellData.trailMechanics  = obj.trail;
+        spellData.impactMechanics = obj.impact;
+        displayCard("Custom mechanics loaded.");
+      } catch {
+        displayCard("<b>Error:</b> Invalid JSON format.");
+      }
+    };
+    reader.readAsText(file);
+  });
+
 
 
 
