@@ -219,6 +219,10 @@ let html = "";
 // Spell Name
 const spellName = generateSpellName(elements);
 html += `<h2>${spellName}</h2>`;
+
+      // Spell Profile Section
+html += `<div class="section"><b>Spell Profile:</b><ul>`;
+
   
 // Power and Validity
 html += `<div class="section"><b>Power:</b> ${totalSum}</div>`;
@@ -251,9 +255,6 @@ const flavor = spellData.flavorText[el.name];
 html += `<li>${el.name}: ${flavor ? flavor : "N/A"}</li>`;
 });
 html += `</ul></div>`;
-  
-    // Spell Profile Section
-html += `<div class="section"><b>Spell Profile:</b><ul>`;
   
   // Attributes Section
 html += `<div class="section"><b>Attributes:</b><ul>`;
@@ -336,6 +337,7 @@ document.getElementById("customMechanicFile")
     };
     reader.readAsText(file);
   });
+
 
 
 
