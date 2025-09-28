@@ -99,6 +99,14 @@
     <div id="spellCard" class="hidden"></div>
     <canvas id="spellCanvas" width="300" height="300"></canvas>
   </div>
+  <select id="mechanicSelector">
+    <option value="ttrpg">TTRPG</option>
+    <option value="pvp">PvP</option>
+    <option value="vtrpg">VTRPG</option>
+    <option value="custom">Custom Upload</option>
+  </select>
+  <input type="file" id="customMechanicFile" accept=".json" class="hidden">
+    
   <button onclick="toggleValidator()">Validator</button>
   <div id="spellCanvas" style="display: none;">This message is toggled!</div>
 <div id="header"></div>
@@ -219,6 +227,7 @@ function toggleValidator() {
   </script>
 </body>
 </html>
+
 
 
 
