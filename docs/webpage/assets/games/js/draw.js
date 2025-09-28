@@ -1,10 +1,10 @@
 // js/draw.js
-import { canvas, ctx, cellSize, gridSize, tileColors } from "./config.js";
-import { selectedTiles } from "./controls.js";
+import { canvas, ctx, cellSize, gridSize, tileColors } from "assets/games/js/config.js";
+import { selectedTiles } from "assets/games/js/controls.js";
 
 let imageLoaded = false;
 const tileImg = new Image();
-tileImg.src = "media/tile.png";
+tileImg.src = "assets/media/tile.png";
 tileImg.onload = () => { imageLoaded = true; };
 
 export function draw(board, dragState={}) {
@@ -70,3 +70,4 @@ export function draw(board, dragState={}) {
     ctx.restore();
   }
 }
+
