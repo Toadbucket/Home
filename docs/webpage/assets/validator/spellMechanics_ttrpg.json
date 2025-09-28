@@ -1,0 +1,26 @@
+{
+  "body": [
+    { "id": 1, "text": "A roaring flame leaps from the caster's hand, illuminating the battlefield." },
+    { "id": 2, "text": "A cresting wave surges forward, sweeping foes off their feet." },
+    { "id": 3, "text": "A sudden gust lifts dust and leaves, obscuring vision and forcing retreat." },
+    { "id": 4, "text": "The ground trembles as a stone fist erupts beneath the target." },
+    { "id": 5, "text": "A spiraling bolt of chaos dances unpredictably between enemies." },
+    { "id": 6, "text": "A focused arcane lance slices through magical defenses with precision." }
+  ],
+  "trail": [
+    { "id": 1, "text": "Scorched earth and flickering embers mark the spell's path." },
+    { "id": 2, "text": "A misty wake lingers, dampening sound and slowing pursuit." },
+    { "id": 3, "text": "Whispers ride the wind, bolstering allies' resolve." },
+    { "id": 4, "text": "Pebbles and dust swirl into a low barricade behind the caster." },
+    { "id": 5, "text": "Reality bends subtly, leaving behind echoes of alternate outcomes." },
+    { "id": 6, "text": "Runes shimmer in the air, amplifying nearby enchantments." }
+  ],
+  "impact": [
+    { "id": 1, "text": "A thunderous detonation sends flames spiraling skyward." },
+    { "id": 2, "text": "The spell culminates in a crystalline burst, encasing targets in frost." },
+    { "id": 3, "text": "A concussive blast knocks spellcasters off balance, disrupting incantations." },
+    { "id": 4, "text": "Stone fragments scatter, embedding into armor and terrain." },
+    { "id": 5, "text": "A ripple in space displaces enemies, scattering formations." },
+    { "id": 6, "text": "A radiant pulse restores clarity and focus to nearby allies." }
+  ]
+}
