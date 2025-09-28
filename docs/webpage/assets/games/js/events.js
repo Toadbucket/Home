@@ -1,8 +1,8 @@
 // js/events.js
-import { canvas, cellSize } from "./config.js";
-import { board } from "./main.js";
-import { selectedTiles, groupMode, selectedId, moveMode } from "./controls.js";
-import { draw } from "./draw.js";
+import { canvas, cellSize } from "assets/games/js/config.js";
+import { board } from "assets/games/js/main.js";
+import { selectedTiles, groupMode, selectedId, moveMode } from "assets/games/js/controls.js";
+import { draw } from "assets/games/js/draw.js";
 
 // drag state
 let isDragging = false;
@@ -78,3 +78,4 @@ function getGridPos(e) {
     gy: Math.floor((e.clientY-rect.top)/cellSize)
   };
 }
+
