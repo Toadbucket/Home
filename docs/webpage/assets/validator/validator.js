@@ -224,9 +224,6 @@ html += `<h2>${spellName}</h2>`;
 html += `<div class="section"><b>Power:</b> ${totalSum}</div>`;
 html += `<div class="section">${validity}</div>`;
 
-  // Spell Profile Section
-html += `<div class="section"><b>Spell Profile:</b><ul>`;
-
 // Body Mechanic
 if (primary) {
 const bodyMech = spellData.bodyMechanics.find(item => item.id === primary.id);
@@ -254,6 +251,9 @@ const flavor = spellData.flavorText[el.name];
 html += `<li>${el.name}: ${flavor ? flavor : "N/A"}</li>`;
 });
 html += `</ul></div>`;
+  
+    // Spell Profile Section
+html += `<div class="section"><b>Spell Profile:</b><ul>`;
   
   // Attributes Section
 html += `<div class="section"><b>Attributes:</b><ul>`;
@@ -336,6 +336,7 @@ document.getElementById("customMechanicFile")
     };
     reader.readAsText(file);
   });
+
 
 
 
