@@ -1,6 +1,6 @@
 // js/config.js
-export const cellSize = 50;
-export const gridSize = 24;
+export const cellSize = 48;
+export const gridSize = 12;
 
 export const tileColors = {
   1: "#f87171", // red
@@ -18,3 +18,4 @@ export const messageBox = document.getElementById("message");
 
 canvas.width = cellSize * gridSize;
 canvas.height = cellSize * gridSize;
+
