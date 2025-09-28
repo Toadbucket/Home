@@ -79,6 +79,73 @@ function getGridPos(e) {
   };
 }
 
+// Grab the new name-input element
+const nameInput      = document.getElementById("spellNameInput");
+
+// Existing elements
+const seedInput      = document.getElementById("advancedSeedInput");
+const saveBtn        = document.getElementById("saveSpellBtn");
+const deleteBtn      = document.getElementById("deleteSpellBtn");
+const spellsContainer= document.getElementById("savedSpellsContainer");
+
+// Load or initialize saved array
+let savedSpells = JSON.parse(localStorage.getItem("savedSpells") || "[]");
+
+// Render function (unchanged)
+function renderSavedSpells() {
+  spellsContainer.innerHTML = "";
+  savedSpells.forEach(({ name, seed }) => {
+    const btn = document.createElement("button");
+    btn.textContent  = name;
+    btn.dataset.seed = seed;
+    btn.onclick      = () => seedInput.value = seed;
+    spellsContainer.appendChild(btn);
+  });
+}
+
+// Save handler: use inline input instead of prompt
+saveBtn.addEventListener("click", () => {
+  const seed = seedInput.value.trim();
+  const name = nameInput.value.trim();
+  if (!seed) {
+    notify("Generate or paste an advanced seed first.");
+    return;
+  }
+  if (!name) {
+    notify("Please enter a name for your spell.");
+    return;
+  }
+  if (savedSpells.some(s => s.seed === seed)) {
+    notify("This spell is already saved.");
+    return;
+  }
+  savedSpells.push({ name, seed });
+  localStorage.setItem("savedSpells", JSON.stringify(savedSpells));
+  nameInput.value = "";
+  renderSavedSpells();
+  notify(`Saved “${name}”`);
+});
+
+// Delete handler: matches current seed, removes entry
+deleteBtn.addEventListener("click", () => {
+  const seed = seedInput.value.trim();
+  const idx  = savedSpells.findIndex(s => s.seed === seed);
+  if (idx === -1) {
+    notify("No saved spell matches the current seed.");
+    return;
+  }
+  const { name } = savedSpells[idx];
+  savedSpells.splice(idx, 1);
+  localStorage.setItem("savedSpells", JSON.stringify(savedSpells));
+  renderSavedSpells();
+  notify(`Deleted “${name}”`);
+});
+
+// Initial render
+renderSavedSpells();
+
+}
+
 
 
 
