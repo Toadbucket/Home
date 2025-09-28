@@ -4,7 +4,7 @@ import { selectedTiles } from "/Home/webpage/assets/games/js/controls.js";
 
 let imageLoaded = false;
 const tileImg = new Image();
-tileImg.src = "assets/media/tile.png";
+tileImg.src = "/Home/webpage/assets/media/tile.png";
 tileImg.onload = () => { imageLoaded = true; };
 
 export function draw(board, dragState={}) {
@@ -70,6 +70,7 @@ export function draw(board, dragState={}) {
     ctx.restore();
   }
 }
+
 
 
 
