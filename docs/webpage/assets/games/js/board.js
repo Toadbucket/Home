@@ -1,6 +1,6 @@
 // js/board.js
-import { seedDisplay } from "./config.js";
-import { Tile } from "./tile.js";
+import { seedDisplay } from "assets/games/js/config.js";
+import { Tile } from "assets/games/js/tile.js";
 
 export class Board {
   constructor() {
@@ -34,3 +34,4 @@ export class Board {
     seedDisplay.textContent = "Seed: " + (seed || "—");
   }
 }
+
