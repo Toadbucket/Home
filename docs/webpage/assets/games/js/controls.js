@@ -1,7 +1,7 @@
 // js/controls.js
 import { messageBox } from "/Home/webpage/assets/games/js/config.js";
-import { draw } from "Home/webpage/assets/games/js/draw.js";
-import { board } from "Home/webpage/assets/games/js/main.js";
+import { draw } from "/Home/webpage/assets/games/js/draw.js";
+import { board } from "/Home/webpage/assets/games/js/main.js";
 
 export let selectedId = 1;
 export let selectedTiles = [];
@@ -78,6 +78,7 @@ export function clearBoard() {
   selectedTiles = [];
   draw(board);
 }
+
 
 
 
