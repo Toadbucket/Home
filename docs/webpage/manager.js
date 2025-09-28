@@ -8,7 +8,7 @@ class ScriptManager {
     this.scripts       = [
       'assets/VisualScene/mapScript.js',
       'assets/VisualScene/fppScript.js',
-      'assets/games/generator.js',
+      'assets/games/js/main.js',
       'assets/validator/validator.js',
       'assets/VisualScene/sceneEffects.js',
     ];
@@ -93,4 +93,5 @@ class ScriptManager {
     this.runInstruction({ function: 'drawFPP', args: {} });
   }
 }
+
 
