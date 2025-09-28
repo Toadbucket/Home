@@ -219,22 +219,12 @@ let html = "";
 // Spell Name
 const spellName = generateSpellName(elements);
 html += `<h2>${spellName}</h2>`;
+  
+// Power and Validity
+html += `<div class="section"><b>Power:</b> ${totalSum}</div>`;
+html += `<div class="section">${validity}</div>`;
 
-// Seed Breakdown Section
-html += `<div class="section"><b>Seed Breakdown:</b><ul>`;
-elements.forEach((s, i) => {
-html += `<li>Rank ${i + 1}: ${s.name} (#${s.id}) Total=${s.total}</li>`;
-});
-html += `</ul></div>`;
-
-// Attributes Section
-html += `<div class="section"><b>Attributes:</b><ul>`;
-rankedStats.forEach(r => {
-html += `<li>${r.stat}: ${r.value} (via ${r.element})</li>`;
-});
-html += `</ul></div>`;
-
-// Spell Profile Section
+  // Spell Profile Section
 html += `<div class="section"><b>Spell Profile:</b><ul>`;
 
 // Body Mechanic
@@ -264,10 +254,20 @@ const flavor = spellData.flavorText[el.name];
 html += `<li>${el.name}: ${flavor ? flavor : "N/A"}</li>`;
 });
 html += `</ul></div>`;
+  
+  // Attributes Section
+html += `<div class="section"><b>Attributes:</b><ul>`;
+rankedStats.forEach(r => {
+html += `<li>${r.stat}: ${r.value} (via ${r.element})</li>`;
+});
+html += `</ul></div>`;
 
-// Power and Validity
-html += `<div class="section"><b>Power:</b> ${totalSum}</div>`;
-html += `<div class="section">${validity}</div>`;
+// Seed Breakdown Section
+html += `<div class="section"><b>Seed Breakdown:</b><ul>`;
+elements.forEach((s, i) => {
+html += `<li>Rank ${i + 1}: ${s.name} (#${s.id}) Total=${s.total}</li>`;
+});
+html += `</ul></div>`;
 
 return html;
 }
@@ -336,6 +336,7 @@ document.getElementById("customMechanicFile")
     };
     reader.readAsText(file);
   });
+
 
 
 
