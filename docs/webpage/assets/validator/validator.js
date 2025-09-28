@@ -2,6 +2,7 @@ document.getElementById("validateButton").addEventListener("click", validateSpel
 
 // Registry of mechanic profiles
 const mechanicProfiles = {
+  original: 'assets/validator/spellMechanics.json',
   ttrpg: 'assets/validator/spellMechanics_ttrpg.json',
   pvp:  'assets/validator/spellMechanics_pvp.json',
   vrpg: 'assets/validator/spellMechanics_vrpg.json',
@@ -337,6 +338,7 @@ document.getElementById("customMechanicFile")
     };
     reader.readAsText(file);
   });
+
 
 
 
