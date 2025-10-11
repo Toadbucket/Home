@@ -235,7 +235,7 @@ loadTutorialBtn.addEventListener("click", async () => {
     if (!res.ok) throw new Error(res.statusText);
 
     const state = await res.json();
-    loadBoardState(state);
+    loadBoardState(state, key);
   } catch (err) {
     alert("Could not load tutorial JSON:\n" + err.message);
     console.error(err);
@@ -248,7 +248,7 @@ loadTutorialBtn.addEventListener("click", async () => {
  *   { tiles: [ {id, x, y, rot}, … ] }
  *   { rooms: [ { tileId, x, y, rotation, … }, … ] }
  */
-function loadBoardState(state) {
+function loadBoardState(state, filename) {
   // Pick the array that exists
   const list = Array.isArray(state.tiles)
     ? state.tiles
@@ -264,14 +264,15 @@ function loadBoardState(state) {
 
   if (!list) {
     console.error("loadBoardState: no tiles or rooms in state", state);
-    
-  } else if (state.rooms === 'leve0.json') {
-    document.getElementById("message").innerText = "test";
-    
-  } else if (state.rooms === 'level1.json') {
-       document.getElementById("message").innerText = "This is a Tome add two tiles to cap the ends to turn this cantrip into a Spell Form";
-      
-  }  else document.getElementById("message").innerText = "not loaded";
+  } else {
+    // Use filename to determine tutorial message
+    const messageMap = {
+      'level0.json': "test",
+      'level1.json': "This is a Tome. Add two tiles to cap the ends to turn this cantrip into a Spell Form."
+    };
+
+    document.getElementById("message").innerText = messageMap[filename] || "not loaded";
+  }
 
   // Clear existing tiles
   board.tiles = [];
@@ -612,6 +613,7 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
 
 
