@@ -33,7 +33,7 @@
       "element": "fire",
       "x": 4,
       "y": 3,
-      "rotation": 0,
+      "rotation": 270,
       "floorColor": "#f33",
       "ceilingColor": "#800",
       "walls": {
@@ -59,7 +59,7 @@
       "element": "fire",
       "x": 6,
       "y": 3,
-      "rotation": 0,
+      "rotation": 90,
       "floorColor": "#f33",
       "ceilingColor": "#800",
       "walls": {
