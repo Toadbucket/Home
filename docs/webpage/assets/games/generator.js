@@ -265,10 +265,10 @@ function loadBoardState(state) {
   if (!list) {
     console.error("loadBoardState: no tiles or rooms in state", state);
     
-  } else if (state.level === 'leve0.json') {
+  } else if (state.rooms.map === 'leve0.json') {
     document.getElementById("message").innerText = "test";
     
-  } else if (state.level === 'level1.json') {
+  } else if (state.rooms.map === 'level1.json') {
        document.getElementById("message").innerText = "This is a Tome add two tiles to cap the ends to turn this cantrip into a Spell Form";
       
   }  else document.getElementById("message").innerText = "not loaded";
@@ -612,6 +612,7 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
 
 
