@@ -3,7 +3,7 @@ const ctx          = canvas.getContext("2d");
 const seedDisplay  = document.getElementById("seed");
 // … other constants and classes …
 const cellSize = 40;
-const gridSize = 30;
+const gridSize = 15;
 
 const tileColors = {
   1: "#f87171", // red
@@ -613,6 +613,7 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
 
 
