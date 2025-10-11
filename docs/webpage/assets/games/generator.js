@@ -267,8 +267,8 @@ function loadBoardState(state, filename) {
   } else {
     // Use filename to determine tutorial message
     const messageMap = {
-      'level0.json': "test",
-      'level1.json': "This is a Tome. Add two tiles to cap the ends to turn this cantrip into a Spell Form."
+      'level0': "test",
+      'level1': "This is a Tome. Add two tiles to cap the ends to turn this cantrip into a Spell Form."
     };
 
     document.getElementById("message").innerText = messageMap[filename] || "not loaded";
@@ -613,6 +613,7 @@ canvas.height = cellSize * gridSize;
 // initial draw
 board.updateSeed();
 draw();
+
 
 
 
