@@ -1,0 +1,100 @@
+{
+  "startRoom": "room1",
+  "rooms": [
+    {
+      "id": "room1",
+      "x": 0,
+      "y": 0,
+      "exits": ["E",""],
+      "floorColor": "#2b2",
+      "ceilingColor": "#121",
+      "walls": { "N":"#445","E":"#111","S":"#445","W":"#444" },
+      "overlays": [{ "offsetX":0.5, "offsetY":0.3, "color":"#0c0" }]
+    },
+    {
+      "id": "room2",
+      "x": 1,
+      "y": 0,
+      "exits": ["E","","W"],
+      "floorColor": "#222",
+      "ceilingColor": "#111",
+      "walls": { "N":"#444","E":"#111","S":"#666","W":"#999" },
+      "overlays": [{ "offsetX":0.3, "offsetY":0.5, "color":"#f80" }]
+    },
+    {
+      "id": "room3",
+      "x": 2,
+      "y": 0,
+      "exits": ["S","W"],
+      "floorColor": "#224",
+      "ceilingColor": "#113",
+      "walls": { "N":"#445","E":"#556","S":"#111","W":"#999" },
+      "overlays": []
+    },
+    {
+      "id": "room4",
+      "x": 2,
+      "y": 1,
+      "exits": ["N","S","E"],
+      "floorColor": "#442",
+      "ceilingColor": "#221",
+      "walls": { "N":"#944","E":"#121","S":"#669","W":"#443" },
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+    },
+    {
+      "id": "room5",
+      "x": 2,
+      "y": 2,
+      "exits": ["N","W"],
+      "floorColor": "#442",
+      "ceilingColor": "#221",
+      "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#999" }]
+    },
+    {
+      "id": "room6",
+      "x": 1,
+      "y": 2,
+      "exits": ["N","E"],
+      "floorColor": "#442",
+      "ceilingColor": "#221",
+      "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+    },
+    {
+      "id": "room7",
+      "x": 1,
+      "y": 1,
+      "exits": ["S","W"],
+      "floorColor": "#442",
+      "ceilingColor": "#221",
+      "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+    },
+    {
+      "id": "room8",
+      "x": 0,
+      "y": 1,
+      "exits": ["S","E"],
+      "floorColor": "#442",
+      "ceilingColor": "#221",
+      "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+    },
+    {
+      "id": "room9",
+      "x": 3,
+      "y": 1,
+      "exits": ["N","E","S","W"],
+      "floorColor": "#442",
+      "ceilingColor": "#221",
+      "walls": { "N":"#111","E":"#111","S":"#111","W":"#443" },
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+    }
+
+  ],
+  "instructions": [
+    { "function": "drawMap", "args": {} },
+    { "function": "drawFPP", "args": {} }
+  ]
+}

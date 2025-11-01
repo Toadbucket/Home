@@ -1,0 +1,30 @@
+:root{--gap:16px;--max-width:1100px;--accent:#2b6ea3}
+/* Base page styles for jewelry template (overrides runetile.css where needed) */
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  margin:24px;
+  background:#f8f9fb;
+  color:#222;
+}
+.container{max-width:var(--max-width);margin:0 auto;background:#424242;border-radius:8px;padding:18px;box-shadow:0 6px 20px rgba(15,20,30,.08)}
+.top{display:flex;gap:var(--gap);align-items:flex-start}
+.main-img{width:220px;height:220px;object-fit:cover;border-radius:6px;flex:0 0 220px;border:1px solid #121213}
+.text-column{flex:1;display:flex;flex-direction:column;gap:12px}
+.text-box{background:rgb(230, 230, 230);border:1px solid #eef2f7;padding:12px;border-radius:6px;min-height:80px}
+.text-box h2{margin:0 0 6px 0}
+.text-box p{margin:0;color:#555}
+.below-box{margin-top:12px;background:#bebebe;border-left:4px solid var(--accent);padding:12px;border-radius:4px}
+.below-box p{margin:.5em 0 0 0;color:#333}
+.gallery{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+.thumb{background:#fff;border:px solid #eef2f7;padding:px;border-radius:px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.thumb img{width:100%;height:80px;object-fit:cover;border-radius:4px}
+.caption{font-size:13px;color:#444;margin-top:6px;text-align:center}
+/* responsive: stack on small screens */
+@media (max-width:640px){
+  .top{flex-direction:column;align-items:center}
+  .main-img{width:100%;height:auto;max-height:320px}
+  .text-column{width:100%}
+}
+
+/* Small accessibility focus state for thumbnails */
+.thumb:focus{outline:3px solid rgba(59, 62, 65, 0.25)}

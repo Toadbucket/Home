@@ -1,0 +1,356 @@
+document.getElementById("validateButton").addEventListener("click", validateSpell);
+
+// Registry of mechanic profiles
+const mechanicProfiles = {
+  original: 'assets/validator/spellMechanics.json',
+  ttrpg: 'assets/validator/spellMechanics_ttrpg.json',
+  pvp:  'assets/validator/spellMechanics_pvp.json',
+  vrpg: 'assets/validator/spellMechanics_vrpg.json',
+  custom: null  // will be set by user file input
+};
+
+// Track which profile is active
+let activeProfile = 'ttrpg';
+
+
+// Global variable to store fetched spell data
+let spellData = {
+  names: {},
+  flavorText: {},
+  bodyMechanics: [],
+  trailMechanics: [],
+  impactMechanics: [],
+};
+
+(async function initializeSpellData() {
+  try {
+    const [namesRes, flavorRes] = await Promise.all([
+      fetch('assets/validator/spellNames.json'),
+      fetch('assets/validator/spellFlavorText.json')
+    ]);
+    if (!namesRes.ok || !flavorRes.ok) throw new Error();
+
+    spellData.names = await namesRes.json();
+    spellData.flavorText = await flavorRes.json();
+
+    // Load initial mechanics
+    await loadMechanicsProfile(activeProfile);
+
+    console.log("Initial spell data loaded.");
+  } catch (e) {
+    console.error("Initialization error:", e);
+    displayCard(`<b>Error:</b> Could not load core spell data.`);
+    document.getElementById("validateButton").disabled = true;
+  }
+})();
+
+async function loadMechanicsProfile(profileKey) {
+  const path = mechanicProfiles[profileKey];
+  if (!path) return;  // custom handled elsewhere
+
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load ${profileKey}`);
+  const mechanics = await res.json();
+
+  spellData.bodyMechanics   = mechanics.body;
+  spellData.trailMechanics  = mechanics.trail;
+  spellData.impactMechanics = mechanics.impact;
+}
+
+// Use an async IIFE (Immediately Invoked Function Expression) to load data on page load
+(async function loadSpellData() {
+try {
+const [namesResponse, mechanicsResponse, flavorResponse] = await Promise.all([
+fetch('assets/validator/spellNames.json'),
+fetch('assets/validator/spellMechanics.json'),
+fetch('assets/validator/spellFlavorText.json')
+]);
+
+if (!namesResponse.ok || !mechanicsResponse.ok || !flavorResponse.ok) {
+throw new Error('One or more JSON files could not be loaded.');
+}
+
+const names = await namesResponse.json();
+const mechanics = await mechanicsResponse.json();
+const flavorText = await flavorResponse.json();
+
+// Organize the data into a single object
+spellData = {
+names: names,
+bodyMechanics: mechanics.body,
+trailMechanics: mechanics.trail,
+impactMechanics: mechanics.impact,
+flavorText: flavorText
+};
+
+console.log("Spell data loaded successfully.");
+} catch (error) {
+console.error("Failed to load spell data:", error);
+displayCard(`<b>Error:</b> Could not load spell data. Check console for details.`);
+document.getElementById("validateButton").disabled = true; // Disable button if data fails to load
+}
+})();
+
+function validateSpell() {
+// Check if spell data is loaded
+if (Object.keys(spellData).length === 0) {
+displayCard(`<b>Error:</b> Spell data is still loading or failed to load. Please try again.`);
+return;
+}
+
+const input = document.getElementById("spellSeed").value.trim();
+
+// Clean input to allow only digits, dots, spaces and commas
+if (!/^[\d.\s,]*$/.test(input)) {
+displayCard(`<b>Error:</b> Invalid characters. Use format: 1.2 2.3 3.0`);
+return;
+}
+
+// Parse input, initialize all to zero
+let spellMap = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+const pairs = input.split(/[\s,]+/).filter(Boolean);
+
+for (const pair of pairs) {
+const [idStr, totalStr] = pair.split(".");
+const id = parseInt(idStr);
+const total = parseFloat(totalStr);
+
+if (isNaN(id) || isNaN(total) || id < 1 || id > 6) {
+displayCard(`<b>Error:</b> Invalid pair "${pair}". Use format like 1.2 2.3`);
+return;
+}
+spellMap[id] = total;
+}
+
+// Build element array, filtering out any with a total of 0
+const elements = [
+{ id: 1, name: "Fire", parity: "Odd", total: spellMap[1] },
+{ id: 2, name: "Water", parity: "Even", total: spellMap[2] },
+{ id: 3, name: "Air", parity: "Odd", total: spellMap[3] },
+{ id: 4, name: "Earth", parity: "Even", total: spellMap[4] },
+{ id: 5, name: "Chaos", parity: "Odd", total: spellMap[5] },
+{ id: 6, name: "Arcane", parity: "Even", total: spellMap[6] },
+].filter(el => el.total > 0);
+
+// If no valid elements are entered, display an error
+if (elements.length === 0) {
+displayCard(`<b>Error:</b> Please enter at least one valid spell seed (e.g., 1.2).`);
+return;
+}
+
+let totalOdd = 0, totalEven = 0, totalSum = 0;
+elements.forEach(el => {
+totalSum += el.total;
+if (el.parity === "Odd") totalOdd += el.total;
+else totalEven += el.total;
+});
+
+// Sort by total desc then id asc
+elements.sort((a, b) => (b.total !== a.total ? b.total - a.total : a.id - b.id));
+
+const statsOrder = ["Duration", "Distance", "Speed", "Spread", "Accuracy", "AOE Size"];
+const rankedStats = elements.map((s, i) => {
+const statValue = Math.round((s.total * s.id) / (i + 1));
+return { stat: statsOrder[i], element: s.name, value: statValue };
+});
+
+let validity = "", manaCost = 0;
+if (totalOdd === totalEven) {
+validity = "<span class='invalid'>❌ Invalid Spell: equal odd and even totals.</span>";
+} else {
+const dominant = totalOdd > totalEven ? "Odd" : "Even";
+manaCost = Math.max(totalOdd, totalEven);
+validity = `<span class='valid'>✅ Valid Spell. Dominant: ${dominant}, Mana Cost: ${manaCost}</span>`;
+}
+
+// Generate spell card content
+const cardContent = generateSpellContent(elements, rankedStats, totalSum, validity);
+
+displayCard(cardContent);
+
+// Only generate an image if there are enough elements
+if (elements.length >= 3) {
+generateSpellImage(elements[0].name, elements[1].name, elements[2].name);
+} else {
+// Clear the canvas if not enough elements
+const canvas = document.getElementById("spellCanvas");
+const ctx = canvas.getContext("2d");
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+}
+
+function generateSpellName(elements) {
+const primary = elements[0] ? elements[0].name : null;
+const secondary = elements[1] ? elements[1].name : null;
+const tertiary = elements[2] ? elements[2].name : null;
+
+let nameParts = [];
+
+if (primary) {
+const primaryNames = spellData.names.primary[primary];
+nameParts.push(randomFrom(primaryNames));
+}
+
+if (secondary) {
+const secondaryNames = spellData.names.secondary[secondary];
+nameParts.push(randomFrom(secondaryNames));
+}
+
+if (tertiary) {
+const tertiaryNames = spellData.names.tertiary[tertiary];
+nameParts.push(randomFrom(tertiaryNames));
+}
+
+// Join the collected parts with a space
+return nameParts.join(" ") || "Unnamed Spell";
+}
+
+function randomFrom(arr) {
+if (!arr || arr.length === 0) return "Unknown";
+return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateSpellContent(elements, rankedStats, totalSum, validity) {
+const primary = elements[0] ? elements[0] : null;
+const secondary = elements[1] ? elements[1] : null;
+const tertiary = elements[2] ? elements[2] : null;
+
+let html = "";
+
+// Spell Name
+const spellName = generateSpellName(elements);
+html += `<h2>${spellName}</h2>`;
+
+      // Spell Profile Section
+html += `<div class="section"><b>Spell Profile:</b><ul>`;
+
+  
+// Power and Validity
+html += `<div class="section"><b>Power:</b> ${totalSum}</div>`;
+html += `<div class="section">${validity}</div>`;
+
+// Body Mechanic
+if (primary) {
+const bodyMech = spellData.bodyMechanics.find(item => item.id === primary.id);
+html += `<li><b>Body:</b> ${bodyMech ? bodyMech.text : "N/A"}</li>`;
+}
+
+// Trail Mechanic
+if (secondary) {
+const trailMech = spellData.trailMechanics.find(item => item.id === secondary.id);
+html += `<li><b>Trail:</b> ${trailMech ? trailMech.text : "N/A"}</li>`;
+}
+
+// Impact Mechanic
+if (tertiary) {
+const impactMech = spellData.impactMechanics.find(item => item.id === tertiary.id);
+html += `<li><b>Impact:</b> ${impactMech ? impactMech.text : "N/A"}</li>`;
+}
+
+html += `</ul></div>`;
+
+// Flavor Text Section
+html += `<div class="section"><b>Flavor Text:</b><ul>`;
+elements.forEach(el => {
+const flavor = spellData.flavorText[el.name];
+html += `<li>${el.name}: ${flavor ? flavor : "N/A"}</li>`;
+});
+html += `</ul></div>`;
+  
+  // Attributes Section
+html += `<div class="section"><b>Attributes:</b><ul>`;
+rankedStats.forEach(r => {
+html += `<li>${r.stat}: ${r.value} (via ${r.element})</li>`;
+});
+html += `</ul></div>`;
+
+// Seed Breakdown Section
+html += `<div class="section"><b>Seed Breakdown:</b><ul>`;
+elements.forEach((s, i) => {
+html += `<li>Rank ${i + 1}: ${s.name} (#${s.id}) Total=${s.total}</li>`;
+});
+html += `</ul></div>`;
+
+return html;
+}
+
+function displayCard(content) {
+const card = document.getElementById("spellCard");
+card.innerHTML = content;
+card.classList.remove("hidden");
+}
+
+function generateSpellImage(primary, secondary, tertiary) {
+  const canvas = document.getElementById("spellCanvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Helper to get image path by category and element
+  function getImagePath(category, element) {
+    if (!element) return null;
+    return `assets/validator/images/${category}/${element.toLowerCase()}.png`;
+  }
+
+  // Helper to load and draw an image
+  function drawElementImage(path, alpha, offsetX, offsetY) {
+    if (!path) return;
+    const img = new Image();
+    img.src = path;
+    img.onload = function() {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(img, offsetX, offsetY, canvas.width, canvas.height);
+      ctx.restore();
+    };
+  }
+
+  drawElementImage(getImagePath("primary", primary), 1.0, 0, 0);
+  drawElementImage(getImagePath("secondary", secondary), 0.7, 10, 10);
+  drawElementImage(getImagePath("tertiary", tertiary), 0.5, 20, 20);
+}
+document.getElementById("mechanicSelector")
+  .addEventListener("change", async function(e) {
+    const key = e.target.value;
+    activeProfile = key;
+
+    if (key === 'custom') {
+      document.getElementById("customMechanicFile").classList.remove("hidden");
+      return;
+    }
+    document.getElementById("customMechanicFile").classList.add("hidden");
+    try {
+      await loadMechanicsProfile(key);
+      displayCard("Mechanics switched to " + key);
+    } catch (err) {
+      console.error(err);
+      displayCard(`<b>Error:</b> Could not load ${key} mechanics.`);
+    }
+  });
+
+document.getElementById("customMechanicFile")
+  .addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const obj = JSON.parse(reader.result);
+        spellData.bodyMechanics   = obj.body;
+        spellData.trailMechanics  = obj.trail;
+        spellData.impactMechanics = obj.impact;
+        displayCard("Custom mechanics loaded.");
+      } catch {
+        displayCard("<b>Error:</b> Invalid JSON format.");
+      }
+    };
+    reader.readAsText(file);
+  });
+
+
+
+
+
+
+
+

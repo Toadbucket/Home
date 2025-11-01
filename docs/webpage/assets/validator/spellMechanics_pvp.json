@@ -1,0 +1,82 @@
+{
+  "body": [
+    {
+      "id": 1,
+      "text": "Hurl a blazing fire orb at a line of tiles, dealing 35 damage to each and applying burn (5 DPT for 2 turns)."
+    },
+    {
+      "id": 2,
+      "text": "Summon a cleansing wave that restores 25 health to one tile, then erodes adjacent Earth tiles—reducing their block by 15% for 3 turns."
+    },
+    {
+      "id": 3,
+      "text": "Rip through tiles with a gust of wind for 30 damage, knocking those tiles one space sideways and disrupting enemy formations."
+    },
+    {
+      "id": 4,
+      "text": "Forge an earthen barrier around a tile granting 40 block for 2 turns and slowing any attacks that pass through by 20%."
+    },
+    {
+      "id": 5,
+      "text": "Unleash a chaotic bolt that hits 1–3 random tiles for 20–45 damage each and shuffles those tiles’ positions on the board."
+    },
+    {
+      "id": 6,
+      "text": "Channel pure Arcane energy into a tile, granting you +10 mana per turn for 3 turns and shielding that tile from the next attack."
+    }
+  ],
+
+  "trail": [
+    {
+      "id": 1,
+      "text": "Leaves a scorched path: any enemy tile moving over it takes 10 damage and gains +1 burn stack (stacks up to 3)."
+    },
+    {
+      "id": 2,
+      "text": "Creates a slick aqua trail: any tile placed on it loses 1 movement for 2 turns and heals 5 health."
+    },
+    {
+      "id": 3,
+      "text": "Whipping wind follows the spell: each allied tile crossing it gains +1 initiative next turn."
+    },
+    {
+      "id": 4,
+      "text": "Dust and pebbles swirl, forming a temporary wall of 30 HP that blocks line of sight for 1 turn."
+    },
+    {
+      "id": 5,
+      "text": "The trail flickers unpredictably, giving each tile on it a 25% chance to trigger a random side effect (stun, swap, or heal)."
+    },
+    {
+      "id": 6,
+      "text": "Rune-carved residue lingers, reducing all spell cooldowns by 1 turn for spells cast from tiles on this trail."
+    }
+  ],
+
+  "impact": [
+    {
+      "id": 1,
+      "text": "Upon impact, ignite a conflagration in a 2×2 area: 50 AoE damage plus 2 burn stacks for 2 turns."
+    },
+    {
+      "id": 2,
+      "text": "Shatter the target tile in a watery explosion: heals allied tiles in a 1-radius by 30 and floods adjacent Earth tiles—removing 1 block layer."
+    },
+    {
+      "id": 3,
+      "text": "Blast a shockwave of air that deals 40 damage, pushes enemy tiles back 2 spaces, and grants you +1 extra action point next turn."
+    },
+    {
+      "id": 4,
+      "text": "Crack the ground under the tile: deal 35 damage, root tiles in a line for 1 turn, and increase their incoming damage by 15%."
+    },
+    {
+      "id": 5,
+      "text": "Rend reality at the impact: deal 30 chaos damage to all tiles, then randomly teleport 2–4 tiles to new positions."
+    },
+    {
+      "id": 6,
+      "text": "Release an arcane pulse that restores 20 mana to you and nearby allied tiles within a 2-tile radius."
+    }
+  ]
+}

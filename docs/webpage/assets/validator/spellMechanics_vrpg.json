@@ -1,0 +1,26 @@
+{
+  "body": [
+    { "id": 1, "text": "Launches a fireball dealing 40 base damage with 10 splash radius." },
+    { "id": 2, "text": "Emits a water surge that applies pull force and slow debuff for 3s." },
+    { "id": 3, "text": "Pushes enemies back 5 units and reduces accuracy by 15% for 2s." },
+    { "id": 4, "text": "Spawns a rock spike dealing 30 damage and applying stagger." },
+    { "id": 5, "text": "Fires a chaotic bolt with randomized trajectory and 20% crit chance." },
+    { "id": 6, "text": "Shoots an arcane beam that pierces up to 3 targets, ignoring shields." }
+  ],
+  "trail": [
+    { "id": 1, "text": "Leaves a burn zone dealing 5 DPS for 4s." },
+    { "id": 2, "text": "Creates a slippery surface reducing movement speed by 25%." },
+    { "id": 3, "text": "Applies haste buff (+10% speed) to allies within 6 units." },
+    { "id": 4, "text": "Generates a temporary wall with 100 HP lasting 5s." },
+    { "id": 5, "text": "Trail applies random debuff: blind, silence, or slow (20% chance each)." },
+    { "id": 6, "text": "Trail boosts spell power by 10% for next cast within 5s." }
+  ],
+  "impact": [
+    { "id": 1, "text": "Triggers explosion dealing 60 AoE damage and burning for 3s." },
+    { "id": 2, "text": "Freezes impact zone, rooting enemies for 2s and reducing defense by 10%." },
+    { "id": 3, "text": "Releases shockwave silencing enemies for 1.5s and interrupting casts." },
+    { "id": 4, "text": "Shards deal 20 damage in a cone and apply bleed for 4s." },
+    { "id": 5, "text": "Teleports affected units to random nearby positions (±8 units)." },
+    { "id": 6, "text": "Restores 15 mana to caster and nearby allies within 5 units." }
+  ]
+}

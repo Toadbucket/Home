@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spell Seed → Level JSON Generator</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; }
+    textarea { width: 100%; height: 5rem; margin-bottom: 1rem; font-family: monospace; }
+    #output { height: 12rem; }
+    button { margin-right: 1rem; padding: 0.5rem 1rem; }
+  </style>
+</head>
+<body>
+
+  <h1>Spell Seed → Level JSON Generator</h1>
+  <p>Paste your advanced spell seed below, then generate and download a level JSON.</p>
+
+  <label for="seedInput">Advanced Seed:</label>
+  <textarea id="seedInput" placeholder="1,(fire),0,0,0.1,0,90 ..."></textarea>
+
+  <button id="generateBtn">Generate JSON</button>
+  <button id="downloadBtn" disabled>Download JSON</button>
+
+  <label for="output">Generated Level JSON:</label>
+  <textarea id="output" readonly placeholder="Your generated JSON will appear here"></textarea>
+
+  <script>
+ // 1) Default visuals for unknown elements
+const defaultVisuals = {
+  floorColor: "#888",
+  ceilingColor: "#222",
+  walls:      { N:"#444", E:"#444", S:"#444", W:"#444" },
+  overlays:   []
+};
+
+// 2) Your element→visuals mapping
+const visualsMap = {
+  fire:  {
+    floorColor: "#f33", ceilingColor: "#800",
+    walls: { N:"#400", E:"#500", S:"#400", W:"#500" },
+    overlays: [{ offsetX:0.5, offsetY:0.2, color:"#f88" }]
+  },
+  water: {
+    floorColor: "#33f", ceilingColor: "#113",
+    walls: { N:"#224", E:"#113", S:"#224", W:"#113" },
+    overlays: [{ offsetX:0.3, offsetY:0.6, color:"#88f" }]
+  },
+  air:   {
+    floorColor: "#3f3", ceilingColor: "#131",
+    walls: { N:"#242", E:"#131", S:"#242", W:"#131" },
+    overlays: []
+  },
+  earth: {
+    floorColor: "#b85", ceilingColor: "#642",
+    walls: { N:"#532", E:"#421", S:"#532", W:"#421" },
+    overlays: [{ offsetX:0.7, offsetY:0.4, color:"#aa8" }]
+  },
+  chaos: {
+    floorColor: "#f9f", ceilingColor: "#606",
+    walls: { N:"#303", E:"#606", S:"#303", W:"#606" },
+    overlays: [{ offsetX:0.5, offsetY:0.5, color:"#f0f" }]
+  }
+};
+
+/**
+ * parseAdvancedSeed
+ * @param {string} seedStr  e.g. "1,(fire),0,0,0.2,1,90 …"
+ * @returns {object} levelData
+ */
+function parseAdvancedSeed(seedStr) {
+  // 1) Turn seed string into flat list of tile entries
+  const tileEntries = [];
+  seedStr
+    .trim()
+    .split(/\s+/)
+    .forEach(group => {
+      const parts   = group.split(",");
+      const tileId  = parseInt(parts[0], 10);
+      const element = parts[1].replace(/[()]/g, "");
+      const coords  = parts.slice(2).join(",").split(".").filter(Boolean);
+
+      coords.forEach(chunk => {
+        const [xs, ys, rs] = chunk.split(",");
+        const x   = parseInt(xs, 10);
+        const y   = parseInt(ys, 10);
+        const rot = ((parseInt(rs, 10) || 0) + 360) % 360;
+        tileEntries.push({ tileId, element, x, y, rotation: rot });
+      });
+    });
+
+  // 2) Build room objects, injecting visuals and placeholders for exits
+  const rooms = tileEntries.map((t, i) => {
+    const visuals = visualsMap[t.element] || defaultVisuals;
+    return {
+      id:           `room${i+1}`,   // auto-generated room ID
+      tileId:       t.tileId,       // your numeric element ID
+      element:      t.element,      // element name, in case you need it
+      x:            t.x,
+      y:            t.y,
+      rotation:     t.rotation,
+      floorColor:   visuals.floorColor,
+      ceilingColor: visuals.ceilingColor,
+      walls:        visuals.walls,
+      overlays:     visuals.overlays,
+      exits:        []              // populated next
+    };
+  });
+
+  // 3) Create a lookup map for adjacency checks
+  const lookup = new Map();
+  rooms.forEach(r => lookup.set(`${r.x},${r.y}`, r));
+
+  // 4) Fill in exits based on neighbors
+  rooms.forEach(r => {
+    const { x, y } = r;
+    if (lookup.has(`${x},${y-1}`)) r.exits.push("N");
+    if (lookup.has(`${x+1},${y}`)) r.exits.push("E");
+    if (lookup.has(`${x},${y+1}`)) r.exits.push("S");
+    if (lookup.has(`${x-1},${y}`)) r.exits.push("W");
+  });
+
+  // 5) Return the final level JSON structure
+  return {
+    startRoom:   rooms.length ? rooms[0].id : null,
+    rooms:       rooms,
+    instructions:[
+      { function: "drawMap", args: {} },
+      { function: "drawFPP", args: {} }
+    ]
+  };
+}
+
+// --- Example usage ---
+const seed = "1,(fire),0,0,0.2,1,90 2,(water),1,0,90";
+const levelData = parseAdvancedSeed(seed);
+console.log(JSON.stringify(levelData, null, 2));
+
+    // 3) UI wiring
+    document.getElementById("generateBtn").onclick = () => {
+      const seed = document.getElementById("seedInput").value;
+      const levelData = parseAdvancedSeed(seed);
+      const json = JSON.stringify(levelData, null, 2);
+      document.getElementById("output").value = json;
+      document.getElementById("downloadBtn").disabled = false;
+    };
+
+    document.getElementById("downloadBtn").onclick = () => {
+      const blob = new Blob([document.getElementById("output").value], { type: "application/json" });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      a.href     = url;
+      a.download = "level.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  </script>
+
+</body>
+</html>
