@@ -102,6 +102,7 @@ background-color: #555;
   max-width: 200px;
   max-height: 60vh;
   overflow: auto;
+  
 }
 
 /* Spell Groups panel styling — adjust to match your site layout */
@@ -133,3 +134,10 @@ background-color: #555;
 .spell-group-panel > div { margin-bottom: 6px; }
 .spell-group-panel .heading { font-weight: 700; margin-bottom: 6px; }
 .spell-group-panel .subheading { font-weight: 600; margin-top: 8px; margin-bottom: 6px; }
+
+.scene {
+  display: none;
+}
+.scene.active {
+  display: block;
+}

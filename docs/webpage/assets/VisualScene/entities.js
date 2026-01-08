@@ -14,12 +14,6 @@
     largeRoom: { color:'#6cf', name:'LargeRoom' }
   };
 
-  this.player = {
-    inventory: [],
-    hp: 20,
-    maxHp: 50
-  };
-
 
   function drawEntities(_, mgr) {
     const ctx = mgr.mapCtx, size = 40;

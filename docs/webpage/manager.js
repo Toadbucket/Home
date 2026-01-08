@@ -23,6 +23,8 @@ class ScriptManager {
     this.inventory     = {}; // basic inventory: map of itemId -> count or details
     this._sceneStack    = []; // stack for large-room sublevels
     this._inventoryEl   = null; // inventory UI element
+    // player state
+    this.player = { hp: 20, maxHp: 20 };
   }
 
   loadScript(srcOrObj) {
@@ -93,6 +95,7 @@ class ScriptManager {
       this.renderAll();
     });
   }
+  
 
   interact() {
     const room = this.rooms[this.currentRoomId];
@@ -340,6 +343,7 @@ class ScriptManager {
       if (!panel) {
         panel = document.createElement('div');
         panel.id = 'inventoryPanel';
+        panel.classList.add('fpp-set');
         panel.style.position = 'relative';
         panel.style.width = '100%';
         panel.style.marginTop = '10px';
@@ -394,6 +398,44 @@ class ScriptManager {
         this._inventoryEl.appendChild(btn);
       });
     } catch (e) { console.warn('Could not update inventory UI', e); }
+  }
+
+  // Health UI helpers
+  updateHealthBar() {
+    // simple hook: re-render so the visual overlay updates
+    try { this.renderAll(); } catch (e) { console.warn('Could not update health UI', e); }
+  }
+
+  drawHealthBar(ctx) {
+    if (!ctx) ctx = this.fppCtx;
+    if (!ctx) return;
+    const hp = (this.player && this.player.hp != null) ? this.player.hp : 0;
+    const max = (this.player && this.player.maxHp) ? this.player.maxHp : 1;
+    const w = 180, h = 18;
+    const x = 12, y = 12;
+    const pct = Math.max(0, Math.min(1, hp / max));
+
+    ctx.save();
+    ctx.globalAlpha = 0.95;
+    // background box
+    ctx.fillStyle = '#111';
+    ctx.fillRect(x - 4, y - 4, w + 8, h + 8);
+    // bar background
+    ctx.fillStyle = '#333';
+    ctx.fillRect(x, y, w, h);
+    // hp fill
+    ctx.fillStyle = '#d33';
+    ctx.fillRect(x, y, Math.floor(w * pct), h);
+    // border
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x, y, w, h);
+    // text
+    ctx.fillStyle = '#fff';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${hp} / ${max}`, x + w / 2, y + h - 3);
+    ctx.restore();
   }
 
   // Use an item from inventory (generic hook for now)
@@ -675,8 +717,6 @@ class ScriptManager {
   }, 3000);
 }
 })();
-
-
 
 window.addEventListener('DOMContentLoaded', () => {
       const mgr = new ScriptManager('mapCanvas', 'fppCanvas');

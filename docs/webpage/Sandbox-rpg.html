@@ -6,6 +6,17 @@
   <link rel="stylesheet" href="assets/css/generator.css" />
   <link rel="stylesheet" href="assets/css/runetile.css" />
   <link rel="stylesheet" href="assets/css/validator.css" />
+  <style>
+    /* Canvas set visibility controlled by body classes */
+    .spell-set, .fpp-set { display: none; }
+    body.show-spell-set .spell-set { display: block; }
+    body.show-fpp-set .fpp-set { display: block; }
+
+    /* Layout: place canvases in #views side-by-side */
+    #views { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+    #views canvas { display: hidden; max-width: 100%; height: auto;}
+    #views .fpp-set { margin: auto; margin-top: 20px; }
+  </style>
  
 </head>
 <body class="rpg">
@@ -18,7 +29,8 @@
       <li><a href="jewelry.html">Jewelry</a></li>
     </ul>
   </nav>
-  
+
+
  <!-- Spell Generator Panel -->
   <div id="toolbar">
     <button onclick="spawnTile(0)">0</button>
@@ -41,6 +53,8 @@
 
     <span id="seed">Seed: —</span>
   </div>
+    <button id="toggleFppSetBtn" onclick="toggleFppSet()">Toggle Map/FPP</button>
+  <button id="toggleSpellSetBtn" onclick="toggleSpellSet()">Toggle Spell/Board</button>
   <div id="generatorContainer">
      <p id="message"><b>Runetile Playtest</b></p>
      <button onclick="generateAdvancedSeed()">Generate Advanced Seed</button>
@@ -63,20 +77,32 @@
   <option value="level7">Level 7 – Rotation</option>
   <!-- add more as you like -->
 </select>
-
-
-
+<!-- RPG Dual-View Panel -->
+  
 </div>
 <div class="runetile">
- <canvas id="spellCanvas" width="600" height="600"></canvas>
- <!-- Spell Groups panel (static element used by generator.js) -->
-<div id="groupPanel" class="spell-group-panel" aria-live="polite"></div>
+ <canvas id="spellCanvas" class="spell-set" width="600" height="600"></canvas>
+<!-- Spell Groups panel (static element used by generator.js) -->
+<div id="groupPanel" class="spell-group-panel spell-set" aria-live="polite"></div>
  
 
-  <canvas id="board" width="500" height="500"></canvas>
+  <canvas id="board" class="spell-set" width="500" height="500"></canvas>
   </div>
   <div id="spellSave">
-    
+    <div id="views">
+    <canvas id="mapCanvas" class="fpp-set" tabindex="0" width="600" height="600"></canvas>
+    <canvas id="fppCanvas" class="fpp-set" tabindex="0" width="600" height="600"></canvas>
+  </div>
+    <!-- Place once in your HTML, e.g. just inside <body> -->
+<div id="notification" class="notification hidden"></div>
+
+ 
+
+
+
+  
+
+  <div id="message-container"></div>
 <!-- Place these next to your existing seed input and buttons -->
 <input id="spellNameInput" type="text" placeholder="Spell name…" />
 
@@ -141,21 +167,7 @@
 
 
 
-<!-- Place once in your HTML, e.g. just inside <body> -->
-<div id="notification" class="notification hidden"></div>
 
- 
-
-
-
-  
-
-<!-- RPG Dual-View Panel -->
-  <div id="views">
-    <canvas id="mapCanvas" tabindex="0" width="600" height="600"></canvas>
-    <canvas id="fppCanvas" tabindex="0" width="600" height="600"></canvas>
-  </div>
-  <div id="message-container"></div>
 <select id="levelSelect">
   <option value="">-- Select a level --</option>
   <option value="assets/VisualScene/levels/level1.json">Level 1</option>
@@ -297,6 +309,29 @@ function toggleValidator() {
         spellCanvas.style.display = 'block';
       } else {
         spellCanvas.style.display = 'none';
+      }
+    }
+
+    // New: toggle canvas sets via CSS classes on the body with mutual exclusion
+    function toggleSpellSet() {
+      const body = document.body;
+      const willShow = !body.classList.contains('show-spell-set');
+      if (willShow) {
+        body.classList.add('show-spell-set');
+        body.classList.remove('show-fpp-set');
+      } else {
+        body.classList.remove('show-spell-set');
+      }
+    }
+
+    function toggleFppSet() {
+      const body = document.body;
+      const willShow = !body.classList.contains('show-fpp-set');
+      if (willShow) {
+        body.classList.add('show-fpp-set');
+        body.classList.remove('show-spell-set');
+      } else {
+        body.classList.remove('show-fpp-set');
       }
     }
 
