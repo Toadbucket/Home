@@ -5,21 +5,27 @@
       "id": "room1",
       "x": 0,
       "y": 0,
-      "exits": ["E",""],
+      "exits": ["E"],
       "floorColor": "#2b2",
       "ceilingColor": "#121",
       "walls": { "N":"#445","E":"#111","S":"#445","W":"#444" },
-      "overlays": [{ "offsetX":0.5, "offsetY":0.3, "color":"#0c0" }]
+      "overlays": [{ "offsetX":0.5, "offsetY":0.3, "color":"#0c0" }],
+      "entities": [
+        { "id": "goldKey", "type": "key", "name": "Gold Key", "interactable": true }
+      ]
     },
     {
       "id": "room2",
       "x": 1,
       "y": 0,
-      "exits": ["E","","W"],
+      "exits": ["W"],
       "floorColor": "#222",
       "ceilingColor": "#111",
       "walls": { "N":"#444","E":"#111","S":"#666","W":"#999" },
-      "overlays": [{ "offsetX":0.3, "offsetY":0.5, "color":"#f80" }]
+      "overlays": [{ "offsetX":0.3, "offsetY":0.5, "color":"#f80" }],
+      "entities": [
+        { "id": "lockedDoor1", "type": "door", "name": "Locked Door", "direction": "E", "required": "goldKey", "interactable": true }
+      ]
     },
     {
       "id": "room3",
@@ -35,11 +41,14 @@
       "id": "room4",
       "x": 2,
       "y": 1,
-      "exits": ["N","S","E"],
+      "exits": ["N","S"],
       "floorColor": "#442",
       "ceilingColor": "#221",
       "walls": { "N":"#944","E":"#121","S":"#669","W":"#443" },
-      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }],
+      "entities": [
+        { "id": "runeLock1", "type": "puzzle", "name": "Rune Lock", "direction": "E", "requiredPrimary": "Fire", "interactable": true }
+      ]
     },
     {
       "id": "room5",
@@ -49,17 +58,21 @@
       "floorColor": "#442",
       "ceilingColor": "#221",
       "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
-      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#999" }]
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#999" }],
+      "entities": [
+        { "id": "bigCavernEntrance", "type": "largeRoom", "name": "Cavern Entrance", "subLevel": "assets/VisualScene/largeRoom1.json", "direction": "S", "interactable": true }
+      ]
     },
     {
       "id": "room6",
       "x": 1,
       "y": 2,
-      "exits": ["N","E"],
+      "exits": ["E"],
       "floorColor": "#442",
       "ceilingColor": "#221",
       "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
-      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }],
+      "entities": [ { "id": "runeLock2", "type": "puzzle", "name": "Rune Lock", "direction": "N", "requiredPrimary": "Fire", "requiredSecondary": "Earth", "requiredTertiary": "Chaos", "interactable": true }]
     },
     {
       "id": "room7",
@@ -79,7 +92,9 @@
       "floorColor": "#442",
       "ceilingColor": "#221",
       "walls": { "N":"#554","E":"#665","S":"#776","W":"#443" },
-      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }]
+      "overlays": [{ "offsetX":0.7, "offsetY":0.2, "color":"#8f8" }],
+      "entities": [ { "id": "torch", "type": "torch", "name": "Torch", "interactable": true }
+      ]
     },
     {
       "id": "room9",

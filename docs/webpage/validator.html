@@ -5,7 +5,6 @@
 <title>Runetile Spell Validator</title>
 
 <link rel="stylesheet" href="assets/css/validator.css">
-<link rel="stylesheet" href="assets/css/runetile.css">
 </head>
 <body>
 <nav>
@@ -13,25 +12,45 @@
 <li><a href="runetile.html">Runetile</a></li>
 <li><a href="blog.html">Blog</a></li>
 <li><a href="validator.html">Validator</a></li>
-<li><a href="generator.html">Generator</a></li>
 <li><a href="Sandbox-rpg.html">RPG</a></li>
 <li><a href="jewelry.html">Jewelry</a></li>
 </ul>
 </nav>
 <div class="container">
 <h1>Runetile Spell Validator</h1>
-<textarea id="spellSeed" rows="4" placeholder="Enter spell seed e.g. 1.15 2.4 3.2 4.9 5.20 6.3"></textarea>
-<button id="validateButton">Validate Spell</button>
-<div id="spellCard" class="hidden"></div>
 <canvas id="spellCanvas" width="300" height="300"></canvas>
+<button id="validateButton">Validate Spell</button>
+<div id="spellCard" class="visible"></div>
+<textarea id="spellSeed" rows="4" placeholder="Enter spell seed e.g. 1.15 2.4 3.2 4.9 5.20 6.3"></textarea>
+
    <select id="mechanicSelector">
-      <option value="original">Original</option>
+      <option value="original">Original Mech</option>
+    <option value="ttrpg">TTRPG</option>
+    <option value="pvp">PvP</option>
+    <option value="vrpg">VRPG</option>
+    <option value="jewelry">Jewelry</option>
+    <option value="custom">Custom Upload</option>
+  </select>
+  <input type="file" id="customMechanicFile" accept=".json" class="hidden">
+
+  <select id="flavorSelector">
+      <option value="original">Original Flavor</option>
     <option value="ttrpg">TTRPG</option>
     <option value="pvp">PvP</option>
     <option value="vrpg">VRPG</option>
     <option value="custom">Custom Upload</option>
   </select>
-  <input type="file" id="customMechanicFile" accept=".json" class="hidden">
+  <input type="file" id="customFlavorFile" accept=".json" class="hidden">
+
+  <!-- Name profiles selector + custom upload -->
+  <select id="nameSelector">
+    <option value="original">Original Names</option>
+    <option value="ttrpg">TTRPG</option>
+    <option value="pvp">PvP</option>
+    <option value="vrpg">VRPG</option>
+    <option value="custom">Custom Upload</option>
+  </select>
+  <input type="file" id="customNameFile" accept=".json" class="hidden">
 </div>
 <script src="assets/validator/validator.js"></script>
 </body>

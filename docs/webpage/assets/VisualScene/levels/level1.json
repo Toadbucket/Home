@@ -1,0 +1,37 @@
+{
+  "name": "Level 1 - Starting Area",
+  "startRoom": "room1",
+  "rooms": [
+    {
+      "id": "room1",
+      "x": 0,
+      "y": 0,
+      "exits": ["E"],
+      "floorColor": "#2b2",
+      "ceilingColor": "#121",
+      "walls": { "N": "#445", "E": "#111", "S": "#445", "W": "#444" },
+      "overlays": [{ "offsetX": 0.5, "offsetY": 0.3, "color": "#0c0" }]
+    },
+    {
+      "id": "room2",
+      "x": 1,
+      "y": 0,
+      "exits": ["W", "E"],
+      "floorColor": "#222",
+      "ceilingColor": "#111",
+      "walls": { "N": "#444", "E": "#111", "S": "#666", "W": "#999" },
+      "overlays": [{ "offsetX": 0.3, "offsetY": 0.5, "color": "#f80" }]
+    },
+    {
+      "id": "room3",
+      "x": 2,
+      "y": 0,
+      "exits": ["W"],
+      "floorColor": "#224",
+      "ceilingColor": "#113",
+      "walls": { "N": "#445", "E": "#556", "S": "#111", "W": "#999" },
+      "overlays": []
+    }
+  ],
+  "instructions": []
+}

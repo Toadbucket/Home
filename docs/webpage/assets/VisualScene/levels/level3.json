@@ -1,0 +1,47 @@
+{
+  "name": "Level 3 - Water Cavern",
+  "startRoom": "room1",
+  "rooms": [
+    {
+      "id": "room1",
+      "x": 0,
+      "y": 0,
+      "exits": ["E"],
+      "floorColor": "#33f",
+      "ceilingColor": "#113",
+      "walls": { "N": "#224", "E": "#113", "S": "#224", "W": "#113" },
+      "overlays": [{ "offsetX": 0.3, "offsetY": 0.6, "color": "#88f" }]
+    },
+    {
+      "id": "room2",
+      "x": 1,
+      "y": 0,
+      "exits": ["W", "E", "S"],
+      "floorColor": "#22d",
+      "ceilingColor": "#002",
+      "walls": { "N": "#113", "E": "#224", "S": "#113", "W": "#224" },
+      "overlays": [{ "offsetX": 0.5, "offsetY": 0.5, "color": "#99f" }]
+    },
+    {
+      "id": "room3",
+      "x": 2,
+      "y": 0,
+      "exits": ["W"],
+      "floorColor": "#11a",
+      "ceilingColor": "#001",
+      "walls": { "N": "#224", "E": "#335", "S": "#224", "W": "#113" },
+      "overlays": []
+    },
+    {
+      "id": "room4",
+      "x": 1,
+      "y": 1,
+      "exits": ["N"],
+      "floorColor": "#009",
+      "ceilingColor": "#000",
+      "walls": { "N": "#224", "E": "#113", "S": "#002", "W": "#113" },
+      "overlays": [{ "offsetX": 0.5, "offsetY": 0.7, "color": "#aaf" }]
+    }
+  ],
+  "instructions": []
+}

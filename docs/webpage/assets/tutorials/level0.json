@@ -5,87 +5,9 @@
       "id": "room1",
       "tileId": 1,
       "element": "fire",
-      "x": 5,
-      "y": 2,
+      "x": 3,
+      "y": 3,
       "rotation": 0,
-      "floorColor": "#f33",
-      "ceilingColor": "#800",
-      "walls": {
-        "N": "#400",
-        "E": "#500",
-        "S": "#400",
-        "W": "#500"
-      },
-      "overlays": [
-        {
-          "offsetX": 0.5,
-          "offsetY": 0.2,
-          "color": "#f88"
-        }
-      ],
-      "exits": [
-        "N"
-      ]
-    },
-    {
-      "id": "room2",
-      "tileId": 1,
-      "element": "fire",
-      "x": 4,
-      "y": 3,
-      "rotation": 270,
-      "floorColor": "#f33",
-      "ceilingColor": "#800",
-      "walls": {
-        "N": "#400",
-        "E": "#500",
-        "S": "#400",
-        "W": "#500"
-      },
-      "overlays": [
-        {
-          "offsetX": 0.5,
-          "offsetY": 0.2,
-          "color": "#f88"
-        }
-      ],
-      "exits": [
-        "W"
-      ]
-    },
-    {
-      "id": "room3",
-      "tileId": 1,
-      "element": "fire",
-      "x": 6,
-      "y": 3,
-      "rotation": 90,
-      "floorColor": "#f33",
-      "ceilingColor": "#800",
-      "walls": {
-        "N": "#400",
-        "E": "#500",
-        "S": "#400",
-        "W": "#500"
-      },
-      "overlays": [
-        {
-          "offsetX": 0.5,
-          "offsetY": 0.2,
-          "color": "#f88"
-        }
-      ],
-      "exits": [
-        "E"
-      ]
-    },
-    {
-      "id": "room4",
-      "tileId": 1,
-      "element": "fire",
-      "x": 5,
-      "y": 4,
-      "rotation": 315,
       "floorColor": "#f33",
       "ceilingColor": "#800",
       "walls": {
@@ -104,11 +26,185 @@
       "exits": []
     },
     {
+      "id": "room2",
+      "tileId": 2,
+      "element": "water",
+      "x": 3,
+      "y": 9,
+      "rotation": 0,
+      "floorColor": "#33f",
+      "ceilingColor": "#113",
+      "walls": {
+        "N": "#224",
+        "E": "#113",
+        "S": "#224",
+        "W": "#113"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.3,
+          "offsetY": 0.6,
+          "color": "#88f"
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "room3",
+      "tileId": 2,
+      "element": "water",
+      "x": 3,
+      "y": 11,
+      "rotation": 180,
+      "floorColor": "#33f",
+      "ceilingColor": "#113",
+      "walls": {
+        "N": "#224",
+        "E": "#113",
+        "S": "#224",
+        "W": "#113"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.3,
+          "offsetY": 0.6,
+          "color": "#88f"
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "room4",
+      "tileId": 2,
+      "element": "water",
+      "x": 12,
+      "y": 4,
+      "rotation": 90,
+      "floorColor": "#33f",
+      "ceilingColor": "#113",
+      "walls": {
+        "N": "#224",
+        "E": "#113",
+        "S": "#224",
+        "W": "#113"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.3,
+          "offsetY": 0.6,
+          "color": "#88f"
+        }
+      ],
+      "exits": []
+    },
+    {
       "id": "room5",
+      "tileId": 2,
+      "element": "water",
+      "x": 11,
+      "y": 11,
+      "rotation": 180,
+      "floorColor": "#33f",
+      "ceilingColor": "#113",
+      "walls": {
+        "N": "#224",
+        "E": "#113",
+        "S": "#224",
+        "W": "#113"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.3,
+          "offsetY": 0.6,
+          "color": "#88f"
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "room6",
+      "tileId": 3,
+      "element": "air",
+      "x": 10,
+      "y": 4,
+      "rotation": 270,
+      "floorColor": "#3f3",
+      "ceilingColor": "#131",
+      "walls": {
+        "N": "#242",
+        "E": "#131",
+        "S": "#242",
+        "W": "#131"
+      },
+      "overlays": [],
+      "exits": []
+    },
+    {
+      "id": "room7",
+      "tileId": 3,
+      "element": "air",
+      "x": 11,
+      "y": 3,
+      "rotation": 0,
+      "floorColor": "#3f3",
+      "ceilingColor": "#131",
+      "walls": {
+        "N": "#242",
+        "E": "#131",
+        "S": "#242",
+        "W": "#131"
+      },
+      "overlays": [],
+      "exits": []
+    },
+    {
+      "id": "room8",
+      "tileId": 3,
+      "element": "air",
+      "x": 12,
+      "y": 10,
+      "rotation": 90,
+      "floorColor": "#3f3",
+      "ceilingColor": "#131",
+      "walls": {
+        "N": "#242",
+        "E": "#131",
+        "S": "#242",
+        "W": "#131"
+      },
+      "overlays": [],
+      "exits": []
+    },
+    {
+      "id": "room9",
       "tileId": 4,
       "element": "earth",
-      "x": 3,
-      "y": 3,
+      "x": 11,
+      "y": 9,
+      "rotation": 0,
+      "floorColor": "#b85",
+      "ceilingColor": "#642",
+      "walls": {
+        "N": "#532",
+        "E": "#421",
+        "S": "#532",
+        "W": "#421"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.7,
+          "offsetY": 0.4,
+          "color": "#aa8"
+        }
+      ],
+      "exits": []
+    },
+    {
+      "id": "room10",
+      "tileId": 4,
+      "element": "earth",
+      "x": 10,
+      "y": 10,
       "rotation": 270,
       "floorColor": "#b85",
       "ceilingColor": "#642",
@@ -125,55 +221,7 @@
           "color": "#aa8"
         }
       ],
-      "exits": [
-        "E"
-      ]
-    },
-    {
-      "id": "room6",
-      "tileId": 5,
-      "element": "chaos",
-      "x": 7,
-      "y": 3,
-      "rotation": 90,
-      "floorColor": "#f9f",
-      "ceilingColor": "#606",
-      "walls": {
-        "N": "#303",
-        "E": "#606",
-        "S": "#303",
-        "W": "#606"
-      },
-      "overlays": [
-        {
-          "offsetX": 0.5,
-          "offsetY": 0.5,
-          "color": "#f0f"
-        }
-      ],
-      "exits": [
-        "W"
-      ]
-    },
-    {
-      "id": "room7",
-      "tileId": 6,
-      "element": "arcane",
-      "x": 5,
-      "y": 1,
-      "rotation": 0,
-      "floorColor": "#888",
-      "ceilingColor": "#222",
-      "walls": {
-        "N": "#444",
-        "E": "#444",
-        "S": "#444",
-        "W": "#444"
-      },
-      "overlays": [],
-      "exits": [
-        "S"
-      ]
+      "exits": []
     }
   ],
   "instructions": [

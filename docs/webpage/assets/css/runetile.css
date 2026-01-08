@@ -8,26 +8,38 @@ align-items: left;
 text-align: center;
 line-height: 1.6;
 margin: 0 auto;
-max-width: 800px;
-margin: 0 auto;
-padding: 20 px;
-background-color: #111;
-color: #675;
+background-color: #333;
+color: rgb(81, 95, 68);
+}
+body.rpg {
+background-color: #000000;
+}
+.page-section {
+margin: 2px auto;
+padding: 100px;
+max-width: 50%;
+background-image: url('../media/paper.png');
+  background-size: 100%;
+
 }
 header {
 text-align: center;
-padding-bottom: 20px;
+padding-bottom: 0px;
 border-bottom: 2px solid #ccc;
 }
 
 nav {
-background-color: #333;
+font-size: 25px;
+background-color: #5a5447;
 }
-
+nav.rpg {
+background-color: #3a3a3a;
+}
 nav ul.menu {
+justify-content: center;
 list-style-type: none;
 margin: 0;
-padding: 0;
+padding: 10;
 display: flex;
 }
 
@@ -38,7 +50,7 @@ margin: 0;
 nav ul.menu li a {
 display: block;
 padding: 14px 20px;
-color: white;
+color: rgb(226, 225, 225);
 text-decoration: none;
 }
 
@@ -65,4 +77,59 @@ cursor: not-allowed;
 button.active {
 background-color: #555;
 }
-	
+
+.vertical {
+            border-left: 5px double rgb(126, 126, 126);
+            height: 50px;
+        }
+
+.runetile {
+   margin: 0;
+
+  display: flex;
+  justify-content: center;    /* horizontal centering */
+  align-items: center;        /* vertical centering */
+  display: flex;
+  align-items: flex-start; /* keeps them aligned at the top */
+  gap: 12px;              /* spacing between elements */
+}
+
+.spell-group-panel {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-shrink: 0;         /* prevents it from shrinking */
+  max-width: 200px;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+/* Spell Groups panel styling — adjust to match your site layout */
+.spell-group-panel {
+  display: grid;
+  justify-self: center;
+  max-height: 60vh;
+  overflow: auto;
+  background: rgba(54, 54, 54, 0);
+  padding: 8px;
+  pointer-events: auto;
+  font-size: 13px;
+  max-width: 200px;
+}
+
+/* Minor button styles inside the panel */
+.spell-group-panel button {
+  display: block;
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  text-align: center;
+  background: #585858;
+  cursor: pointer;
+}
+.spell-group-panel button:hover { background: #919191; }
+
+/* Headings inside the panel */
+.spell-group-panel > div { margin-bottom: 6px; }
+.spell-group-panel .heading { font-weight: 700; margin-bottom: 6px; }
+.spell-group-panel .subheading { font-weight: 600; margin-top: 8px; margin-bottom: 6px; }

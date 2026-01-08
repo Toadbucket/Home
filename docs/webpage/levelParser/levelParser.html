@@ -35,6 +35,11 @@ const defaultVisuals = {
 
 // 2) Your element→visuals mapping
 const visualsMap = {
+  hadle: {
+    floorColor: "#ff0", ceilingColor: "#880",
+    walls: { N:"#770", E:"#880", S:"#770", W:"#880" },
+    overlays: [{ offsetX:0.5, offsetY:0.5, color:"#ff8" }]
+  },
   fire:  {
     floorColor: "#f33", ceilingColor: "#800",
     walls: { N:"#400", E:"#500", S:"#400", W:"#500" },
@@ -59,6 +64,11 @@ const visualsMap = {
     floorColor: "#f9f", ceilingColor: "#606",
     walls: { N:"#303", E:"#606", S:"#303", W:"#606" },
     overlays: [{ offsetX:0.5, offsetY:0.5, color:"#f0f" }]
+  },
+  arcane: {
+    floorColor: "#99f", ceilingColor: "#336",
+    walls: { N:"#336", E:"#99f", S:"#336", W:"#99f" },
+    overlays: [{ offsetX:0.4, offsetY:0.4, color:"#ccf" }]
   }
 };
 

@@ -1,0 +1,26 @@
+{
+"body": [
+{ "id": 1, "text": "A fiery projectile that explodes on impact." },
+{ "id": 2, "text": "A swirling vortex of water that pulls enemies in." },
+{ "id": 3, "text": "A gust of wind that pushes targets back." },
+{ "id": 4, "text": "A jagged rock that rises from the ground." },
+{ "id": 5, "text": "A chaotic, unpredictable missile that ricochets." },
+{ "id": 6, "text": "Interdimensional Pocket Space available to store non-sapient beings. 50 Times the space of the object size." }
+],
+"trail": [
+{ "id": 1, "text": "Leaves a trail of burning embers that deals damage over time." },
+{ "id": 2, "text": "Creates a slick, watery surface that slows movement." },
+{ "id": 3, "text": "Generates a gentle breeze that increases ally speed." },
+{ "id": 4, "text": "Forms a temporary rock wall that blocks projectiles." },
+{ "id": 5, "text": "Traces path to and from target area gathering Spacial Information and relaying relevant observations back to the user." },
+{ "id": 6, "text": "The trail hums with energy, increasing spell power." }
+],
+"impact": [
+{ "id": 1, "text": "The impact point erupts in a massive fiery explosion." },
+{ "id": 2, "text": "Upon impact, the water freezes, trapping enemies in ice." },
+{ "id": 3, "text": "Within 2 foot radius of object all sounds and vibrations are muted." },
+{ "id": 4, "text": "A shower of sharp stone shards erupts from the impact." },
+{ "id": 5, "text": "The impact tears a temporary rift, teleporting targets randomly." },
+{ "id": 6, "text": "The impact releases a burst of arcane energy that restores mana." }
+]
+}

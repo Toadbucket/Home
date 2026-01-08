@@ -1,0 +1,418 @@
+{
+  "startRoom": "room1",
+  "rooms": [
+    {
+      "id": "room1",
+      "tileId": 1,
+      "element": "fire",
+      "x": 0,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E"
+      ]
+    },
+    {
+      "id": "room2",
+      "tileId": 1,
+      "element": "fire",
+      "x": 1,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room3",
+      "tileId": 1,
+      "element": "fire",
+      "x": 2,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room4",
+      "tileId": 1,
+      "element": "fire",
+      "x": 3,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room5",
+      "tileId": 1,
+      "element": "fire",
+      "x": 4,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room6",
+      "tileId": 1,
+      "element": "fire",
+      "x": 5,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room7",
+      "tileId": 1,
+      "element": "fire",
+      "x": 6,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room8",
+      "tileId": 1,
+      "element": "fire",
+      "x": 7,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room9",
+      "tileId": 1,
+      "element": "fire",
+      "x": 8,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room10",
+      "tileId": 1,
+      "element": "fire",
+      "x": 9,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room11",
+      "tileId": 1,
+      "element": "fire",
+      "x": 10,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room12",
+      "tileId": 1,
+      "element": "fire",
+      "x": 11,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room13",
+      "tileId": 1,
+      "element": "fire",
+      "x": 12,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room14",
+      "tileId": 1,
+      "element": "fire",
+      "x": 13,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E",
+        "W"
+      ]
+    },
+    {
+      "id": "room15",
+      "tileId": 1,
+      "element": "fire",
+      "x": 14,
+      "y": 5,
+      "rotation": 0,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "W"
+      ]
+    }
+  ],
+  "instructions": [
+    {
+      "function": "drawMap",
+      "args": {}
+    },
+    {
+      "function": "drawFPP",
+      "args": {}
+    }
+  ]
+}

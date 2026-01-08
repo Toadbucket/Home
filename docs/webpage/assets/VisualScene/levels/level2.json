@@ -1,0 +1,47 @@
+{
+  "name": "Level 2 - Fire Temple",
+  "startRoom": "room1",
+  "rooms": [
+    {
+      "id": "room1",
+      "x": 0,
+      "y": 0,
+      "exits": ["E", "S"],
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": { "N": "#400", "E": "#500", "S": "#400", "W": "#500" },
+      "overlays": [{ "offsetX": 0.5, "offsetY": 0.2, "color": "#f88" }]
+    },
+    {
+      "id": "room2",
+      "x": 1,
+      "y": 0,
+      "exits": ["W", "S"],
+      "floorColor": "#e22",
+      "ceilingColor": "#700",
+      "walls": { "N": "#500", "E": "#600", "S": "#500", "W": "#400" },
+      "overlays": [{ "offsetX": 0.5, "offsetY": 0.4, "color": "#ff8" }]
+    },
+    {
+      "id": "room3",
+      "x": 0,
+      "y": 1,
+      "exits": ["N", "E"],
+      "floorColor": "#d11",
+      "ceilingColor": "#600",
+      "walls": { "N": "#400", "E": "#500", "S": "#300", "W": "#500" },
+      "overlays": []
+    },
+    {
+      "id": "room4",
+      "x": 1,
+      "y": 1,
+      "exits": ["W", "N"],
+      "floorColor": "#c00",
+      "ceilingColor": "#500",
+      "walls": { "N": "#500", "E": "#700", "S": "#400", "W": "#400" },
+      "overlays": [{ "offsetX": 0.7, "offsetY": 0.3, "color": "#f99" }]
+    }
+  ],
+  "instructions": []
+}

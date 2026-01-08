@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <title>RPG + Spell Generator & Validator</title>
   <link rel="stylesheet" href="assets/css/generator.css" />
+  <link rel="stylesheet" href="assets/css/runetile.css" />
   <link rel="stylesheet" href="assets/css/validator.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+ 
 </head>
-<body>
-  <nav>
+<body class="rpg">
+  <nav class="rpg">
     <ul class="menu">
       <li><a href="runetile.html">Runetile</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="validator.html">Validator</a></li>
-      <li><a href="generator.html">Generator</a></li>
       <li><a href="Sandbox-rpg.html">RPG</a></li>
       <li><a href="jewelry.html">Jewelry</a></li>
     </ul>
@@ -28,6 +28,7 @@
     <button onclick="spawnTile(4)">4</button>
     <button onclick="spawnTile(5)">5</button>
     <button onclick="spawnTile(6)">6</button>
+     <div class= "vertical"></div>
   <button id="toggleGroupMode" onclick="toggleGroupMode(); displayMessage()">📦 Group</button>
     <button onclick="rotateSelectionCW()">🔄 RotateCW</button>
     <button onclick="rotateSelectionCC()">🔄 RotateCC</button>
@@ -40,27 +41,21 @@
 
     <span id="seed">Seed: —</span>
   </div>
- <canvas id="spellCanvas" width="600" height="600"></canvas>
-  <canvas id="board" width="500" height="500"></canvas>
-  <div id="spellSave">
-<!-- Place these next to your existing seed input and buttons -->
-<input id="spellNameInput" type="text" placeholder="Spell name…" />
-
-<button id="saveSpellBtn">Save Spell</button>
-<button id="deleteSpellBtn">Delete Spell</button>
-
-<button onclick="generateAdvancedSeed()">Generate Advanced Seed</button>
+  <div id="generatorContainer">
+     <p id="message"><b>Runetile Playtest</b></p>
+     <button onclick="generateAdvancedSeed()">Generate Advanced Seed</button>
     <button onclick="applyAdvancedSeed()">Apply Advanced Seed</button>
 <input type="text" id="advancedSeedInput" placeholder="Paste advanced seed here">
-</div>
-<div id="tutorial">
+     <div id="tutorial">
+       <button id="validateButton">Validate Spell</button>
   <!-- somewhere in your board editor UI -->
 <label for="tutorialSelect">Choose Tutorial:</label>
+<button id="loadTutorialBtn" disabled>Load Tutorial</button>
 <select id="tutorialSelect">
   <option value="">-- pick a tutorial --</option>
-  <option value="level0">Level 0 – Intro</option>
-  <option value="level1">Level 1 – Tiles</option>
-  <option value="level2">Level 2 – Tomes</option>
+  <option value="level0">Level 0 – Intro Groups and Tiles</option>
+  <option value="level1">Level 1 – Polarity and Capping</option>
+  <option value="level2">Level 2 – Spell Forms and Scripts</option>
   <option value="level3">Level 3 – Runes</option>
   <option value="level4">Level 4 – Glyphs</option>
   <option value="level5">Level 5 – Intro</option>
@@ -68,58 +63,153 @@
   <option value="level7">Level 7 – Rotation</option>
   <!-- add more as you like -->
 </select>
-<button id="loadTutorialBtn" disabled>Load Tutorial</button>
+
+
+
 </div>
+<div class="runetile">
+ <canvas id="spellCanvas" width="600" height="600"></canvas>
+ <!-- Spell Groups panel (static element used by generator.js) -->
+<div id="groupPanel" class="spell-group-panel" aria-live="polite"></div>
+ 
+
+  <canvas id="board" width="500" height="500"></canvas>
+  </div>
+  <div id="spellSave">
+    
+<!-- Place these next to your existing seed input and buttons -->
+<input id="spellNameInput" type="text" placeholder="Spell name…" />
+
+
+<button id="saveSpellBtn">Save Spell</button>
+
+
+
+<button id="deleteSpellBtn">Delete Spell</button>
 <!-- Container for dynamically created spell buttons -->
 <div id="savedSpellsContainer"></div>
+
+
+
+ <div class="container">
+
+
+<!-- Spell Validator Panel -->
+  <div class="validator">
+    <h1>Runetile Spell Validator</h1>
+    <textarea id="spellSeed" rows="2" placeholder="Enter spell seed e.g. 1.15 2.4 3.2 4.9 5.20 6.3"></textarea>
+
+     
+<div id="spellCard" class="hidden"></div>
+</div>
+
+
+<!-- Tile Base Style Selector -->
+<div id="tileBaseStyleSection">
+  <label for="tileBaseStyleSelector">Base Tile:</label>
+  <select id="tileBaseStyleSelector">
+    <option value="default">Default</option>
+    <option value="glyphs">Glyphs</option>
+    <option value="runes">Runes</option>
+    <option value="custom">Custom</option>
+  </select>
+</div>
+
+<!-- ID Label Style Selector -->
+<div id="tileIdStyleSection">
+  <label for="tileIdStyleSelector">ID Labels:</label>
+  <select id="tileIdStyleSelector">
+    <option value="digits">Digits</option>
+    <option value="glyphs">Glyphs</option>
+    <option value="runes">Runes</option>
+    <option value="custom">Custom</option>
+  </select>
+  
+  <p>(flip between base tiles if id labels are not loading)</p>
+  <p>Play through the tutorial levels to learn about using the Runetile spell system. Read the reference page to learn about the user interface and controls.</p>
+</div>
+
+<!-- User Upload Section (Placeholder) -->
+<div id="userUploadSection" class="hidden">
+  <h3>Custom Tile Glyphs</h3>
+  <p>Upload custom glyph images for tiles.</p>
+  <input type="file" id="customGlyphUpload" accept="image/*" multiple />
+  <button onclick="processCustomGlyphs()">Upload Glyphs</button>
+  <!-- More functionality to be implemented -->
+</div>
+</div>
+
+
 
 <!-- Place once in your HTML, e.g. just inside <body> -->
 <div id="notification" class="notification hidden"></div>
 
+ 
 
-   <div class="container">
-    <button id="validateButton">Validate Spell</button>
-<div id="spellCard" class="hidden"></div>
-</div>
 
-  <p id="message"></p>
-<button onclick="toggleRune()">Runetile</button>
-  <div id="board" style="display: none;">This message is toggled!</div>
+
+  
 
 <!-- RPG Dual-View Panel -->
   <div id="views">
-    <canvas id="mapCanvas" tabindex="0" width="500" height="500"></canvas>
-    <canvas id="fppCanvas" tabindex="0" width="500" height="500"></canvas>
+    <canvas id="mapCanvas" tabindex="0" width="600" height="600"></canvas>
+    <canvas id="fppCanvas" tabindex="0" width="600" height="600"></canvas>
   </div>
-<button onclick="toggleMap()">Map</button>
-  <div id="mapCanvas" style="display: none;">This message is toggled!</div>
-  <button onclick="toggleGame()">Game</button>
-  <div id="fppCanvas" style="display: none;">This message is toggled!</div>
- 
-  <!-- Spell Validator Panel -->
-  <div class="container">
-    <h1>Runetile Spell Validator</h1>
-    <textarea id="spellSeed" rows="2" placeholder="Enter spell seed e.g. 1.15 2.4 3.2 4.9 5.20 6.3"></textarea>
-   
+  <div id="message-container"></div>
+<select id="levelSelect">
+  <option value="">-- Select a level --</option>
+  <option value="assets/VisualScene/levels/level1.json">Level 1</option>
+  <option value="assets/VisualScene/levels/level2.json">Level 2</option>
+  <option value="assets/VisualScene/levels/level3.json">Level 3</option>
+  <option value="assets/VisualScene/levels/level4.json">Level 4</option>
+  <option value="assets/VisualScene/levels/level5.json">Level 5</option>
+</select>
+<button id="loadLevelBtn" disabled>Load Level</button>
+<button id="saveLevelBtn">Save Level</button>
+<button id="deleteLevelBtn">Delete Level</button>
+
+
+
    
   </div>
-  <select id="mechanicSelector">
+  
+   <select id="mechanicSelector">
+      <option value="original">Original Mech</option>
+    <option value="ttrpg">TTRPG</option>
+    <option value="pvp">PvP</option>
+    <option value="vrpg">VRPG</option>
+    <option value="jewelry">Jewelry</option>
+    <option value="custom">Custom Upload</option>
+  </select>
+  <input type="file" id="customMechanicFile" accept=".json" class="hidden">
+
+  <select id="flavorSelector">
+      <option value="original">Original Flavor</option>
     <option value="ttrpg">TTRPG</option>
     <option value="pvp">PvP</option>
     <option value="vrpg">VRPG</option>
     <option value="custom">Custom Upload</option>
   </select>
-  <input type="file" id="customMechanicFile" accept=".json" class="hidden">
+  <input type="file" id="customFlavorFile" accept=".json" class="hidden">
+
+  <!-- Name profiles selector + custom upload -->
+  <select id="nameSelector">
+    <option value="original">Original Names</option>
+    <option value="ttrpg">TTRPG</option>
+    <option value="pvp">PvP</option>
+    <option value="vrpg">VRPG</option>
+    <option value="custom">Custom Upload</option>
+  </select>
     
-  <button onclick="toggleValidator()">Validator</button>
-  <div id="spellCanvas" style="display: none;">This message is toggled!</div>
+ 
 <div id="header"></div>
 
-<h1>Runetile, The TTRPG Spell Building System</h1>
-<h1 id="homepage">Homepage</h1>
+
+
 <div class="page-section">
+  <h1 id="homepage">The TTRPG Spell Building System</h1>
 <p>Greetings Traveler welcome to my Goblin Den I am your Goblin Ben and this is where you will uncover the truth of Runetile the open source spell building system. on this site will be posting about the Leatherbound universe that the system resides in as well as the Toadbucket’s Trinkets story progress and my handmade fantasy jewelry collections.</p>
-<hr>
+
 <h2 id="-about-me">Runetile system:</h2>
 <p>Runetile is a modular spell building system designed for TTRPG, Tactile Solo Puzzles, Sandbox creative expression, and Competitive PVP.</p>
 <p>Gameplay and rules:</p>
@@ -130,29 +220,20 @@
 <p>two tiles together form a tome, a tome may be used as a component by having odd and even polarity in the group however to make a tome cantrip-able you must have two of the same polarity (odd/odd even/even).</p>
 <p>On a Tome Group to the side of the empty space facing inwards add a third Tile to form a Rune this rune must have one opposing and two matching polarities. Runes are inherently Cantrip-able.</p>
 <p>On a Rune Group the same as the Rune formation add a fourth Tile this forms a Glyph glyphs need to have 3/4ths polarity to be valid for cantrips however 50/50 is usable as a component.</p>
-<p>Tomes Runes and Glyphs even as components can be capped with Tiles at loose connection points as long as the polarity is valid (more of one polarity than the other) then the components or cantrips become a spell form this is just a single group capped at all segments to be valid.</p>
-<p>Tomes Runes and Glyphs are connected to each other at open connection points the formation gets capped at all loose connection points and if polarity is valid form a spell script.</p>
-<hr>
-<h2 id="-projects">Spell Cantrips, Spell Forms, and Spell Scripts once formed generate a Spell Seed.</h2>
-<p>Here are several pieces I have designed and hand fabricated.</p>
+<p>Tomes Runes and Glyphs even as components can be capped with Tiles at loose connection points as long as the polarity is valid (more of one polarity than the other) then the components or cantrips become a spell form this is just a single group capped at all segments to be valid.<br><br><br></p>
+<p>Tomes Runes and Glyphs are connected to each other at open connection points the formation gets capped at all loose connection points and if polarity is valid form a spell script.<br><br><br></p>
+
+<h2 id="-projects">Spell Cantrips, Spell Forms, and Spell Scripts once formed generate a Spell Seed.<br><br></h2>
 <p>the Spell seed is sent to the interpreter (or worked out manually using a cypher) to first validate the polarity then generate the spell card.</p>
 <p>the Runetile Tile Tome Rune and Glyph system is designed to be interchanged with any form of medium or art just track an id to a concept or design or sound or movement, create art or performances based on the tracked ids through repetition in the piece. </p>
 <p>the Runetile Interpreter system is designed to be modular and incorporate the mechanics defined or is supported by the system you are playing, since the spell seed is being interpreted you can provide a distinct output for each id in each rank for the playstyle you want it can be PVP TTRPG VRPG or just messing around with what you can create with this system in your own sandbox environment.</p>
-<p>Developers Note This is an art project and the programs are all MVP additionally I produced the applications and framework of my code using AI but the systems and the IP are all my original work.</p>
 <p>This system is designed for the LeatherBound RPG system and Toadbucket's Trinckets narrative IP.</p>
 <p></p>
 
-<ul>
-<li><p><strong><a href="project-alpha.html">Welding</a></strong><br>Typically stick or mig but I dabble in tig.</p>
-</li>
-<li><p><strong><a href="project-beta.html">Jewelry</a></strong><br>A collection of handcrafted bespoke traditional benchwork jewelry.</p>
-</li>
-<li><p><strong><a href="project-gamma.html">Animation</a></strong><br>Animations set in the leatherbound universe sometimes showcasing jewelry. </p>
-</li>
-<li><p><strong><a href="">TTRPG Setting</a></strong>
+<li><p><strong><a href="jewelry.html">TTRPG Setting</a></strong>
 The Universe toadbucket and runetile are set in.</p>
 </li>
-<li><p><strong><a href="">Blog</a></strong>
+<li><p><strong><a href="blog.html">Blog</a></strong>
 A website I designed.</p>
 </li>
 </ul>
@@ -222,11 +303,135 @@ function toggleValidator() {
 
 </script>
   <!-- Core Manager -->
+  <script src="assets/VisualScene/levelParser.js"></script>
   <script src="manager.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const mgr = new ScriptManager('mapCanvas', 'fppCanvas');
       mgr.init();
+
+      // Elements
+      const levelSelect = document.getElementById('levelSelect');
+      const loadBtn = document.getElementById('loadLevelBtn');
+      const saveLevelBtn = document.getElementById('saveLevelBtn');
+      const spellNameInput = document.getElementById('spellNameInput');
+      const advancedSeedInput = document.getElementById('advancedSeedInput');
+
+      // Saved levels storage key
+      const STORAGE_KEY = 'savedLevels';
+
+      // Keep track of generated blob URLs so we can revoke if needed
+      let blobUrls = [];
+
+      function sanitizeFilename(name) {
+        return name.replace(/[^a-z0-9-_\. ]/gi, '_').trim();
+      }
+
+      function loadSavedLevels() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        } catch (e) { return []; }
+      }
+
+      function saveSavedLevels(list) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      }
+
+      function clearBlobUrls() {
+        blobUrls.forEach(u => URL.revokeObjectURL(u));
+        blobUrls = [];
+      }
+
+      function refreshSavedLevelOptions() {
+        // Remove previous saved-level options
+        Array.from(levelSelect.querySelectorAll('option[data-saved-level]')).forEach(o => o.remove());
+        clearBlobUrls();
+
+        const saved = loadSavedLevels();
+        saved.forEach((entry, idx) => {
+          const jsonStr = JSON.stringify(entry.level, null, 2);
+          const blob = new Blob([jsonStr], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          blobUrls.push(url);
+          const opt = document.createElement('option');
+          opt.value = url;
+          opt.textContent = `${entry.name} (saved)`;
+          opt.setAttribute('data-saved-level', '1');
+          opt.setAttribute('data-saved-idx', String(idx));
+          levelSelect.appendChild(opt);
+        });
+      }
+
+      // Wire enabling/disabling for load button
+      if (levelSelect && loadBtn) {
+        levelSelect.addEventListener('change', () => { loadBtn.disabled = levelSelect.value === ''; });
+        loadBtn.addEventListener('click', () => {
+          const selected = levelSelect.value;
+          const opt = levelSelect.options[levelSelect.selectedIndex];
+          if (opt && opt.dataset && opt.dataset.savedIdx !== undefined) {
+            // mark which saved-level index is being loaded
+            if (window.gameManager) window.gameManager.currentSavedIndex = parseInt(opt.dataset.savedIdx, 10);
+          } else if (window.gameManager) {
+            window.gameManager.currentSavedIndex = null;
+          }
+          if (selected && window.gameManager) {
+            window.gameManager.currentLevelSource = selected;
+            window.gameManager.loadSelectedLevel(selected);
+          }
+        });
+      }
+
+      // Save level button logic (store seed and do NOT download)
+      const deleteLevelBtn = document.getElementById('deleteLevelBtn');
+
+      if (saveLevelBtn) {
+        saveLevelBtn.addEventListener('click', () => {
+          const name = (spellNameInput && spellNameInput.value.trim()) || '';
+          const seed = (advancedSeedInput && advancedSeedInput.value.trim()) || '';
+          if (!name) return alert('Please enter a spell name to use as the level name.');
+          if (!seed) return alert('Please generate or paste an advanced seed first.');
+          if (typeof parseAdvancedSeed !== 'function') return alert('Level parser not loaded.');
+
+          const level = parseAdvancedSeed(seed);
+          level.name = name;
+
+          // Store in localStorage including the original seed
+          const list = loadSavedLevels();
+          list.push({ name, seed, level, ts: Date.now() });
+          saveSavedLevels(list);
+
+          // Refresh options so the new level is selectable immediately
+          refreshSavedLevelOptions();
+
+          alert(`Saved level “${name}”`);
+        });
+      }
+
+      // Delete level button logic: delete currently loaded saved level (if any)
+      if (deleteLevelBtn) {
+        deleteLevelBtn.addEventListener('click', () => {
+          if (!confirm('Delete this saved level? This cannot be undone.')) return;
+          if (!window.gameManager) return alert('Game manager not initialized.');
+          const idx = window.gameManager.currentSavedIndex;
+          if (typeof idx !== 'number' || idx === null || isNaN(idx)) {
+            return alert('No created/saved level is currently loaded. Load a saved level then press Delete Level.');
+          }
+          const list = loadSavedLevels();
+          if (idx < 0 || idx >= list.length) {
+            return alert('Saved level index out of range.');
+          }
+          const removed = list.splice(idx, 1)[0];
+          saveSavedLevels(list);
+          // Clear any currentSavedIndex and source on the manager
+          window.gameManager.currentSavedIndex = null;
+          window.gameManager.currentLevelSource = null;
+          refreshSavedLevelOptions();
+          alert(`Deleted saved level “${removed.name}”`);
+        });
+      }
+
+      // Initial population of saved levels into the select
+      refreshSavedLevelOptions();
     });
   </script>
 </body>

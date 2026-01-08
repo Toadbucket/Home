@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Brass Glasses</title>
+  <!-- Header styles from runetile + template-specific styles -->
+  <link rel="stylesheet" href="../css/template.css">
+  <link rel="stylesheet" href="../css/runetile.css">
+</head>
+<body>
+  <!-- Begin header (copied from runetile.html, adjusted links for this file's location) -->
+  <nav>
+    <ul class="menu">
+      <li><a href="../../runetile.html">Runetile</a></li>
+      <li><a href="../../blog.html">Blog</a></li>
+      <li><a href="../../validator.html">Validator</a></li>
+      <li><a href="../../generator.html">Generator</a></li>
+      <li><a href="../../Sandbox-rpg.html">RPG</a></li>
+      <li><a href="../../jewelry.html">Jewelry</a></li>
+    </ul>
+  </nav>
+  <div id="header"></div>
+  <!-- End header -->
+  <div class="container">
+    <div class="top">
+      <!-- main image top-left -->
+      <img id="mainImage" class="main-img" src="../media/jewelry/glasses-glam.jpg" alt="Beetle pendant main view">
+
+      <!-- text next to the image -->
+      <div class="text-column">
+        <div class="text-box" id="summaryBox">
+          <h2 style="margin:0 0 6px 0">Brass Glasses</h2>
+          <p style="margin:0;color:#555"><b>ID:</b>N/A<br><b>Status: <strong>Broken</b></strong> <br><b>description:</b>[The Archivists are still cataloguing this artifact. Details will be added soon.]<br><b>Currently Unavailable</b></p>
+        </div>
+
+        <!-- box underneath the text column (still adjacent on wide screens) -->
+        <div class="below-box" id="detailsBox">
+          <strong>Archivist Note's</strong>
+          <p style="margin:.5em 0 0 0;color:#333">[This note remains sealed until the Archive completes its review.]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- gallery of alternative images / thumbnails -->
+    <div class="gallery" aria-label="Alternative views">
+      <figure class="thumb" tabindex="0" data-full="../media/jewelry/glasses-glam.jpg">
+        <img src="../media/jewelry/glasses-glam.jpg" alt="Pendant full view">
+        <figcaption class="caption"></figcaption>
+      </figure>
+
+      <figure class="thumb" tabindex="0" data-full="../media/jewelry/glasses-front.jpg">
+        <img src="../media/jewelry/glasses-front.jpg" alt="Glam view">
+        <figcaption class="caption"></figcaption>
+      </figure>
+
+      <figure class="thumb" tabindex="0" data-full="../media/jewelry/glasses-back.jpg">
+        <img src="../media/jewelry/glasses-back.jpg" alt="Open pendant view">
+        <figcaption class="caption"></figcaption>
+      </figure>
+      <!-- Add more thumbnails as needed by copying the figure block and updating data-full/src/alt -->
+    </div>
+  </div>
+
+  <script>
+    // Small helper: click or keyboard-select thumbnail to swap main image
+    (function(){
+      const thumbs = document.querySelectorAll('.thumb');
+      const main = document.getElementById('mainImage');
+      thumbs.forEach(t => {
+        const img = t.querySelector('img');
+        const full = t.dataset.full || img.src;
+        function activate(){
+          main.src = full;
+          main.alt = img.alt || main.alt;
+        }
+        t.addEventListener('click', activate);
+        t.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+      });
+    })();
+  </script>
+</body>
+</html>

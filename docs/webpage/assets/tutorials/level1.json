@@ -6,8 +6,60 @@
       "tileId": 1,
       "element": "fire",
       "x": 4,
-      "y": 5,
+      "y": 7,
       "rotation": 270,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "W"
+      ]
+    },
+    {
+      "id": "room2",
+      "tileId": 1,
+      "element": "fire",
+      "x": 6,
+      "y": 7,
+      "rotation": 90,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E"
+      ]
+    },
+    {
+      "id": "room3",
+      "tileId": 1,
+      "element": "fire",
+      "x": 11,
+      "y": 8,
+      "rotation": 180,
       "floorColor": "#f33",
       "ceilingColor": "#800",
       "walls": {
@@ -26,11 +78,37 @@
       "exits": []
     },
     {
-      "id": "room2",
+      "id": "room4",
       "tileId": 1,
       "element": "fire",
-      "x": 6,
-      "y": 5,
+      "x": 3,
+      "y": 7,
+      "rotation": 270,
+      "floorColor": "#f33",
+      "ceilingColor": "#800",
+      "walls": {
+        "N": "#400",
+        "E": "#500",
+        "S": "#400",
+        "W": "#500"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.5,
+          "offsetY": 0.2,
+          "color": "#f88"
+        }
+      ],
+      "exits": [
+        "E"
+      ]
+    },
+    {
+      "id": "room5",
+      "tileId": 1,
+      "element": "fire",
+      "x": 7,
+      "y": 7,
       "rotation": 90,
       "floorColor": "#f33",
       "ceilingColor": "#800",
@@ -45,6 +123,32 @@
           "offsetX": 0.5,
           "offsetY": 0.2,
           "color": "#f88"
+        }
+      ],
+      "exits": [
+        "W"
+      ]
+    },
+    {
+      "id": "room6",
+      "tileId": 2,
+      "element": "water",
+      "x": 11,
+      "y": 6,
+      "rotation": 0,
+      "floorColor": "#33f",
+      "ceilingColor": "#113",
+      "walls": {
+        "N": "#224",
+        "E": "#113",
+        "S": "#224",
+        "W": "#113"
+      },
+      "overlays": [
+        {
+          "offsetX": 0.3,
+          "offsetY": 0.6,
+          "color": "#88f"
         }
       ],
       "exits": []

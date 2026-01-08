@@ -1,16 +1,32 @@
 document.getElementById("validateButton").addEventListener("click", validateSpell);
 
+const nameProfiles = {
+  original: 'assets/validator/spellNames.json',
+  ttrpg: 'assets/validator/spellNames_ttrpg.json',
+  pvp:  'assets/validator/spellNames_pvp.json',
+  vrpg: 'assets/validator/spellNames_vrpg.json',
+  custom: null  // will be set by user file input
+};
 // Registry of mechanic profiles
 const mechanicProfiles = {
   original: 'assets/validator/spellMechanics.json',
   ttrpg: 'assets/validator/spellMechanics_ttrpg.json',
   pvp:  'assets/validator/spellMechanics_pvp.json',
   vrpg: 'assets/validator/spellMechanics_vrpg.json',
+  jewelry: 'assets/validator/spellMechanics_jewelry.json',
   custom: null  // will be set by user file input
 };
-
+const flavorProfiles = {
+  original: 'assets/validator/spellFlavorText.json',
+  ttrpg: 'assets/validator/spellFlavorText_ttrpg.json',
+  pvp:  'assets/validator/spellFlavorText_pvp.json',
+  vrpg: 'assets/validator/spellFlavorText_vrpg.json',
+  custom: null  // will be set by user file input
+};
 // Track which profile is active
-let activeProfile = 'ttrpg';
+let activeMechanicProfile = 'ttrpg';
+let activeFlavorProfile = 'original';
+let activeNameProfile = 'original';
 
 
 // Global variable to store fetched spell data
@@ -24,25 +40,27 @@ let spellData = {
 
 (async function initializeSpellData() {
   try {
-    const [namesRes, flavorRes] = await Promise.all([
-      fetch('assets/validator/spellNames.json'),
-      fetch('assets/validator/spellFlavorText.json')
-    ]);
-    if (!namesRes.ok || !flavorRes.ok) throw new Error();
-
-    spellData.names = await namesRes.json();
-    spellData.flavorText = await flavorRes.json();
-
-    // Load initial mechanics
-    await loadMechanicsProfile(activeProfile);
-
-    console.log("Initial spell data loaded.");
+    await loadNameProfiles(activeNameProfile);
+    // Load initial flavor text
+    await loadFlavorProfile(activeFlavorProfile);
+    await loadMechanicsProfile(activeMechanicProfile);
+    console.log("Initial name and flavor data loaded.");
   } catch (e) {
     console.error("Initialization error:", e);
-    displayCard(`<b>Error:</b> Could not load core spell data.`);
-    document.getElementById("validateButton").disabled = true;
-  }
-})();
+    displayCard("<b>Error</b>Spell data initialized.");
+    document.getElementById("validateButton").disabled = false;
+  }})();
+
+async function loadNameProfiles(profileKey) {
+  const path = nameProfiles[profileKey];
+  if (!path) return;  // custom handled elsewhere
+
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load ${profileKey}`);
+  const names = await res.json();
+
+  spellData.names = names;
+}
 
 async function loadMechanicsProfile(profileKey) {
   const path = mechanicProfiles[profileKey];
@@ -55,6 +73,21 @@ async function loadMechanicsProfile(profileKey) {
   spellData.bodyMechanics   = mechanics.body;
   spellData.trailMechanics  = mechanics.trail;
   spellData.impactMechanics = mechanics.impact;
+}
+
+async function loadFlavorProfile(profileKey) {
+  const path = flavorProfiles[profileKey];
+  if (!path) return;  // custom handled elsewhere
+
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load ${profileKey}`);
+  const flavor = await res.json();
+
+  spellData.bodyFlavorText   = flavor.body;
+  spellData.trailFlavorText  = flavor.trail;
+  spellData.impactFlavorText = flavor.impact;
+  // also keep the top-level flavorText mapping for backward compatibility
+  spellData.flavorText = flavor;
 }
 
 // Use an async IIFE (Immediately Invoked Function Expression) to load data on page load
@@ -168,14 +201,37 @@ const cardContent = generateSpellContent(elements, rankedStats, totalSum, validi
 
 displayCard(cardContent);
 
-// Only generate an image if there are enough elements
-if (elements.length >= 3) {
-generateSpellImage(elements[0].name, elements[1].name, elements[2].name);
+  // Expose structured spell info for external consumers (e.g., the RPG)
+  try {
+    const dominant = totalOdd > totalEven ? 'Odd' : 'Even';
+    const isValid = totalOdd !== totalEven;
+    // store a compact, structured version on window for the game to use
+    window.lastGeneratedSpell = {
+      elements: elements, // array of element objects (sorted)
+      primary: elements[0] || null,
+      secondary: elements[1] || null,
+      tertiary: elements[2] || null,
+      rankedStats: rankedStats,
+      totalPower: totalSum,
+      manaCost: manaCost,
+      validityText: validity,
+      valid: isValid,
+      dominantParity: dominant
+    };
+  } catch (e) { console.warn('Could not set lastGeneratedSpell', e); }
+
+// Generate image depending on how many elements are present.
+// Pass element objects so we can use ids for image lookup (id-based files) and fall back to names.
+if (elements.length >= 1) {
+  const p = elements[0] || null;
+  const s = elements[1] || null;
+  const t = elements[2] || null;
+  generateSpellImage(p, s, t, elements.length);
 } else {
-// Clear the canvas if not enough elements
-const canvas = document.getElementById("spellCanvas");
-const ctx = canvas.getContext("2d");
-ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Clear the canvas if not enough elements
+  const canvas = document.getElementById("spellCanvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 }
 
@@ -280,38 +336,163 @@ card.innerHTML = content;
 card.classList.remove("hidden");
 }
 
-function generateSpellImage(primary, secondary, tertiary) {
+// Animation handle so we can cancel previous runs
+let __validatorAnimationId = null;
+
+/**
+ * Generate a composite spell image.
+ * primary/secondary/tertiary are element objects ({id, name, ...}) or null.
+ * count controls how many layers to render: 1 -> primary only, 2 -> primary+secondary, 3+ -> all three.
+ */
+async function generateSpellImage(primary, secondary, tertiary, count = 3) {
   const canvas = document.getElementById("spellCanvas");
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Helper to get image path by category and element
-  function getImagePath(category, element) {
-    if (!element) return null;
-    return `assets/validator/images/${category}/${element.toLowerCase()}.png`;
+  // Build possible base paths for an element: prefer id-based (e.g., '1'), then name-based ('fire')
+  function baseCandidates(category, element) {
+    if (!element) return [];
+    const name = (element.name || '').toLowerCase();
+    const id = element.id != null ? String(element.id) : null;
+    const base = `assets/validator/images/${category}/`;
+    const candidates = [];
+    if (id) candidates.push(base + id);
+    if (name) candidates.push(base + name);
+    return candidates;
   }
 
-  // Helper to load and draw an image
-  function drawElementImage(path, alpha, offsetX, offsetY) {
-    if (!path) return;
-    const img = new Image();
-    img.src = path;
-    img.onload = function() {
+  // Try to load frames for a single base (without extension). We attempt single png then numbered sequences.
+  // Returns an array of Image objects (length 0 if none found).
+  function loadFramesFromBase(base) {
+    return new Promise(resolve => {
+      const frames = [];
+
+      // Try single png first
+      const single = new Image();
+      single.onload = () => resolve([single]);
+      single.onerror = () => {
+        // try sequence patterns
+        const maxFrames = 100;
+        let loaded = 0;
+        let attempts = 0;
+        for (let i = 0; i < maxFrames; i++) {
+          const candidates = [
+            `${base}_${i}.png`,
+            `${base}${i}.png`,
+            `${base}-${i}.png`,
+            `${base}_${String(i).padStart(3, '0')}.png`
+          ];
+
+          // closure to capture candidate
+          (function tryCandidate(listIndex) {
+            if (listIndex >= candidates.length) return; // shouldn't happen
+          })(0);
+        }
+
+        // We'll attempt sequentially with a helper to reduce concurrent requests
+        let seqIndex = 0;
+        let consecutiveMisses = 0;
+        function tryNext() {
+          if (seqIndex >= maxFrames || consecutiveMisses >= 4) {
+            // done
+            resolve(frames);
+            return;
+          }
+          const i = seqIndex++;
+          const candidates = [
+            `${base}_${i}.png`,
+            `${base}${i}.png`,
+            `${base}-${i}.png`,
+            `${base}_${String(i).padStart(3, '0')}.png`
+          ];
+
+          let found = false;
+          function tryCandidateAt(ci) {
+            if (ci >= candidates.length) {
+              if (!found) {
+                consecutiveMisses++;
+                tryNext();
+              }
+              return;
+            }
+            const url = candidates[ci];
+            const img = new Image();
+            img.onload = () => {
+              frames.push(img);
+              found = true;
+              consecutiveMisses = 0;
+              // continue to next index
+              tryNext();
+            };
+            img.onerror = () => tryCandidateAt(ci + 1);
+            img.src = url;
+          }
+          tryCandidateAt(0);
+        }
+        tryNext();
+      };
+      single.src = base + '.png';
+    });
+  }
+
+  // Prepare layers (up to count)
+  const allLayers = [
+    { category: 'primary', element: primary, alpha: 1.0, x: 0, y: 0, fps: 12 },
+    { category: 'secondary', element: secondary, alpha: 0.7, x: 10, y: 10, fps: 12 },
+    { category: 'tertiary', element: tertiary, alpha: 0.5, x: 20, y: 20, fps: 12 }
+  ];
+  const layers = allLayers.slice(0, Math.max(0, Math.min(3, count)));
+
+  // For each layer, try candidate bases (id then name) until we find frames
+  await Promise.all(layers.map(async layer => {
+    layer.frames = [];
+    const candidates = baseCandidates(layer.category, layer.element);
+    for (const b of candidates) {
+      const f = await loadFramesFromBase(b);
+      if (f && f.length) {
+        layer.frames = f;
+        break;
+      }
+    }
+  }));
+
+  // If no frames at all, clear and return
+  if (layers.every(l => !l.frames || l.frames.length === 0)) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+
+  // Cancel previous animation
+  if (__validatorAnimationId) cancelAnimationFrame(__validatorAnimationId);
+
+  // Simple animation loop for sequences
+  const start = performance.now();
+  function tick(now) {
+    const elapsed = now - start;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    layers.forEach(layer => {
+      if (!layer.frames || layer.frames.length === 0) return;
       ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(img, offsetX, offsetY, canvas.width, canvas.height);
+      ctx.globalAlpha = layer.alpha;
+      if (layer.frames.length === 1) {
+        try { ctx.drawImage(layer.frames[0], layer.x, layer.y, canvas.width, canvas.height); } catch (e) {}
+      } else {
+        const idx = Math.floor((elapsed / 1000) * layer.fps) % layer.frames.length;
+        try { ctx.drawImage(layer.frames[idx], layer.x, layer.y, canvas.width, canvas.height); } catch (e) {}
+      }
       ctx.restore();
-    };
+    });
+
+    __validatorAnimationId = requestAnimationFrame(tick);
   }
 
-  drawElementImage(getImagePath("primary", primary), 1.0, 0, 0);
-  drawElementImage(getImagePath("secondary", secondary), 0.7, 10, 10);
-  drawElementImage(getImagePath("tertiary", tertiary), 0.5, 20, 20);
+  __validatorAnimationId = requestAnimationFrame(tick);
 }
 document.getElementById("mechanicSelector")
   .addEventListener("change", async function(e) {
     const key = e.target.value;
-    activeProfile = key;
+    activeMechanicProfile = key;
 
     if (key === 'custom') {
       document.getElementById("customMechanicFile").classList.remove("hidden");
@@ -346,6 +527,97 @@ document.getElementById("customMechanicFile")
     };
     reader.readAsText(file);
   });
+const _flavorSelector = document.getElementById("flavorSelector");
+if (_flavorSelector) {
+  _flavorSelector.addEventListener("change", async function(e) {
+    const key = e.target.value;
+    activeFlavorProfile = key;
+
+    if (key === 'custom') {
+      const cf = document.getElementById("customFlavorFile");
+      if (cf) cf.classList.remove("hidden");
+      return;
+    }
+    const cfHide = document.getElementById("customFlavorFile");
+    if (cfHide) cfHide.classList.add("hidden");
+    try {
+      await loadFlavorProfile(key);
+      displayCard("flavor switched to " + key);
+    } catch (err) {
+      console.error(err);
+      displayCard(`<b>Error:</b> Could not load ${key} flavor.`);
+    }
+  });
+} else console.warn('flavorSelector element not found');
+
+const _customFlavorFile = document.getElementById("customFlavorFile");
+if (_customFlavorFile) {
+  _customFlavorFile.addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const obj = JSON.parse(reader.result);
+        // populate both the detailed fields and the top-level flavorText mapping
+        spellData.bodyFlavorText   = obj.body;
+        spellData.trailFlavorText  = obj.trail;
+        spellData.impactFlavorText = obj.impact;
+        spellData.flavorText = obj;
+        displayCard("Custom flavor loaded.");
+      } catch {
+        displayCard("<b>Error:</b> Invalid JSON format.");
+      }
+    };
+    reader.readAsText(file);
+  });
+} else console.warn('customFlavorFile element not found');
+
+// Name selector + custom upload (mirrors mechanic selector behavior)
+const _nameSelector = document.getElementById("nameSelector");
+if (_nameSelector) {
+  _nameSelector.addEventListener("change", async function(e) {
+    const key = e.target.value;
+    activeNameProfile = key;
+
+    const nameFileInput = document.getElementById("customNameFile");
+    if (key === 'custom') {
+      if (nameFileInput) nameFileInput.classList.remove("hidden");
+      return;
+    }
+    if (nameFileInput) nameFileInput.classList.add("hidden");
+    try {
+      await loadNameProfiles(key);
+      displayCard("Names switched to " + key);
+    } catch (err) {
+      console.error(err);
+      displayCard(`<b>Error:</b> Could not load ${key} names.`);
+    }
+  });
+} else console.warn('nameSelector element not found');
+
+const _customNameFile = document.getElementById("customNameFile");
+if (_customNameFile) {
+  _customNameFile.addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const obj = JSON.parse(reader.result);
+        // Expecting the same structure as other name JSONs (primary/secondary/tertiary)
+        spellData.names = obj;
+        displayCard("Custom names loaded.");
+      } catch (err) {
+        console.error(err);
+        displayCard("<b>Error:</b> Invalid JSON format for names.");
+      }
+    };
+    reader.readAsText(file);
+  });
+} else console.warn('customNameFile element not found');
 
 
 

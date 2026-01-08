@@ -8,7 +8,7 @@
     // rooms
     Object.values(mgr.rooms).forEach(r => {
       ctx.fillStyle = '#444';
-      ctx.fillRect(r.x*size+2, r.y*size+2, size-4, size-4);
+      ctx.fillRect(r.x*size+.5, r.y*size+.5, size-4, size-4);
     });
 
     // connections

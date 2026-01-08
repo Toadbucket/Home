@@ -1,0 +1,50 @@
+{
+  "startRoom": "lr1_room1",
+  "rooms": [
+    {
+      "id": "lr1_room1",
+      "x": 0,
+      "y": 0,
+      "exits": ["E"],
+      "floorColor": "#331",
+      "ceilingColor": "#111",
+      "walls": { "N":"#222","E":"#111","S":"#444","W":"#333" },
+      "overlays": [],
+      "entities": [
+        { "id": "caveEnemy1", "type": "enemy", "name": "Cave Spider", "hp": 10, "weakness": "Fire", "contents": [{"id": "Gold Key", "name": "Gold Key"}], "direction": "N", "interactable": true }
+      ]
+    },
+    {
+      "id": "lr1_room2",
+      "x": 1,
+      "y": 0,
+      "exits": ["W", "E"],
+      "floorColor": "#133",
+      "ceilingColor": "#000",
+      "walls": { "N":"#111","E":"#111","S":"#111","W":"#111" },
+      "overlays": [],
+      "entities": [
+        { "id": "treasureChest", "type": "chest","contents": [{"id": "goldCoin", "name": "Gold Coin"}],"required": "Gold Key", "name": "Old Chest", "interactable": true }
+      ] 
+    },
+    {
+      "id": "lr1_room3",
+      "x": 2,
+      "y": 0,
+      "exits": ["W"],
+      "floorColor": "#133",
+      "ceilingColor": "#000",
+      "walls": { "N":"#111","E":"#111","S":"#111","W":"#111" },
+      "overlays": [],
+      "returnToParent": true,
+      "entities": [
+        { "id": "", "type": "", "name": "", "interactable": true }
+      ]
+    }
+  ],
+  "instructions": [
+    { "function": "drawMap", "args": {} },
+    { "function": "drawFPP", "args": {} }
+  ]
+}
+
