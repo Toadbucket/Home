@@ -50,6 +50,9 @@
       const by = h/2 + (h/2)*o.offsetY;
       ctx.fillRect(bx-10, by-10, 20, 20);
     });
+
+    // draw player health if available
+    try { if (mgr && typeof mgr.drawHealthBar === 'function') mgr.drawHealthBar(ctx); } catch (e) { console.warn('Health draw failed', e); }
   }
 
   mgr.registerFunction('drawFPP', drawFPP);
